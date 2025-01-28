@@ -1,9 +1,3 @@
-import mongoose from 'mongoose';
-
-declare global{
-    var mongooseConnection : Promise<typeof mongoose> | null;
-};
-
 export type IWorkspace = {
     _id : string;
     name : string;
