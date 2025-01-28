@@ -5,7 +5,9 @@ if(!uri){
     throw new Error('Mongodb uri is not defined. Please check you env file');
 };
 
-let cached = (global as any).mongooseConnection;
+
+
+let cached = global.mongooseConnection;
 
 const connectToDatabase = async()=>{
     try{
