@@ -3,13 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Column } from "@/app/lib/models";
 
-interface routeContext {
-    params : {
-        id : string
-    }
-}
+interface RouteContext {
+    params: {
+      id: string;
+    };
+    [key: string]: any;
+  }
 
-export async function PATCH(request : NextRequest, context : routeContext){
+
+export async function PATCH(request : NextRequest, context : RouteContext){
     const body = await request.json();
     const data = body;
     const { id } = context.params
