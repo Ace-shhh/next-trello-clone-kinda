@@ -56,34 +56,3 @@ export async function POST(request : NextRequest){
         )
     }
 }
-
-export async function UpdateColumnById(request : NextRequest){
-    const body = await request.json();
-    const { id, title } = body;
-
-    await connectToDatabase();
-
-    try{
-        const updatedColumn = await Column.findByIdAndUpdate(
-            id,
-            {title : title},
-            {new : true},
-        );
-
-        if(!updatedColumn){
-            return NextResponse.json(
-                {message : 'Column not found'},
-                {status : 404}
-            );
-        };
-
-        return NextResponse.json({data : updatedColumn});
-    }
-    catch(error){
-        console.log(error);
-        return NextResponse.json(
-            {message : 'Internal server error'},
-            {status : 500}
-        )
-    }
-}
