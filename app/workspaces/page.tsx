@@ -3,9 +3,10 @@ import styles from './page.module.scss';
 import Workspace from '../components/workspace/workspace';
 import { IWorkspace } from '../lib/definitions';
 import { useEffect, useState } from 'react';
+import { User } from '@/app/lib/definitions';
 
 export default function Workspaces(){
-    const [userInfo, setUserInfo] = useState<any>(null);
+    const [userInfo, setUserInfo] = useState<User>();
 
     useEffect(()=>{
         const storedUser = localStorage.getItem('userInfo') || null;

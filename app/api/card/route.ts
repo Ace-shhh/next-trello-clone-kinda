@@ -40,12 +40,14 @@ export async function POST(request : NextRequest){
         
         }
         catch(error){
+            console.log(error);
             return NextResponse.json(
                 {error : `Error linking card to column. CardId = , ${newCard._id}`}
             );
         }
     }
     catch(error){
+        console.log(error);
         return NextResponse.json(
             {error : "Internal server error"},
             {status: 500}

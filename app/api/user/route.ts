@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/app/lib/mongodb';
-import {User, Workspace} from '@/app/lib/models';
+import {User} from '@/app/lib/models';
 
 
 export async function POST(request : NextRequest){
     const body = await request.json();
-    const {email, password} = body;
+    const {email} = body;
 
     await connectToDatabase();
 

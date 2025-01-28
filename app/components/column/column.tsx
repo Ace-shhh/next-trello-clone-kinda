@@ -7,7 +7,7 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 
 export default function Column({data} : {data : IColumn}){
-    const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id : data._id})
+    const {attributes, listeners, setNodeRef, transform} = useSortable({id : data._id})
     const style = {
         transform : CSS.Translate.toString(transform),
     }

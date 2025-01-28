@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
-import { Board, Column } from '@/app/lib/models/index';
+import { Board } from '@/app/lib/models/index';
 
 
 export async function POST(request : NextRequest){

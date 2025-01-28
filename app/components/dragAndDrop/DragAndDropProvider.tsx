@@ -16,7 +16,7 @@ import { useBoardContext } from '@/context/boardContext';
 
 export default function DragAndDropProvider({ items, children} : {items : string[], children : ReactNode}){
     const [activeId, setActiveId] = useState<string | null | number>(null);
-    const { boardInfo, setBoardInfo} = useBoardContext();
+    const {setBoardInfo} = useBoardContext();
 
     const sensor = useSensors(
         useSensor(MouseSensor),
@@ -51,6 +51,7 @@ export default function DragAndDropProvider({ items, children} : {items : string
             sensors={sensor} 
             collisionDetection={closestCorners} 
             onDragEnd={handleDragEnd}
+            onDragStart={(e)=> setActiveId(e.active.id)}
             >
             <SortableContext items={items || []} strategy={horizontalListSortingStrategy}>
                 {children}

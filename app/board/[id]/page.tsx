@@ -34,7 +34,7 @@ export default function Board(){
         }
 
         fetchBoardInfo();
-    },[])
+    },[id, setBoardInfo])
 
     if(!boardInfo){
         return <div>Loading...</div>

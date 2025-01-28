@@ -17,7 +17,7 @@ const connectToDatabase = async()=>{
         }
         await cached;
     }
-    catch(error){
+    catch(error : unknown){
         console.log('Connection to database failed', error);
         throw new Error('Failed to connect to mongodb');
     };
