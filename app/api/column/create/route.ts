@@ -57,7 +57,7 @@ export async function POST(request : NextRequest){
     }
 }
 
-export async function UpdateColumnByI(request : NextRequest){
+export async function UpdateColumnById(request : NextRequest){
     const body = await request.json();
     const { id, title } = body;
 
