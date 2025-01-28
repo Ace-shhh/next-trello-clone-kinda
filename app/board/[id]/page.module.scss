@@ -1,0 +1,21 @@
+.container{
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    .boardInformation{
+        background-color: blue;
+        
+        h2{
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .cardsContainer{
+        flex : 1;
+        padding: 10px;
+        display: flex;
+        gap: 10px;
+        color: #172b4d;
+    }
+}
