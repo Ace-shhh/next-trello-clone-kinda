@@ -3,15 +3,22 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Column } from "@/app/lib/models";
 
-export async function PATCH(request : NextRequest, { params } : { params : { id : string}}){
+interface routeContext {
+    params : {
+        id : string
+    }
+}
+
+export async function PATCH(request : NextRequest, context : routeContext){
     const body = await request.json();
     const data = body;
+    const { id } = context.params
 
     await connectToDatabase();
 
     try{
         const updatedColumn = await Column.findByIdAndUpdate(
-            params.id,
+            id,
             data,
             {new : true},
         )
