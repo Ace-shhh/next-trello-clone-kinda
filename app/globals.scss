@@ -24,3 +24,8 @@ html, body {
   padding: 0;
   
 }
+
+button:hover{
+  cursor : pointer;
+  filter : brightness(0.8)
+}

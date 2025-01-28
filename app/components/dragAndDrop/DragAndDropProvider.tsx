@@ -34,6 +34,8 @@ export default function DragAndDropProvider({ items, children} : {items : string
         const { active, over } = event;
         if(!over || active.id === over.id) return;
 
+        
+
         setBoardInfo((prev)=>{
             if(!prev) return prev;
             const currentColumns = [...prev.columns];

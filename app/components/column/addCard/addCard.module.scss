@@ -44,10 +44,3 @@
     text-align: start;
     margin-top: 10px;
 }
-
-button:hover{
-    &:hover{
-        cursor : pointer;
-        filter : brightness(0.8)
-    }
-}
