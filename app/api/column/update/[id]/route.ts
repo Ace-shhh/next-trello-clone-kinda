@@ -11,10 +11,10 @@ interface RouteContext {
   }
 
 
-export async function PATCH(request : NextRequest, context : RouteContext){
+export async function PATCH(request: NextRequest, { params }: { params : Promise<{ id : string }> }){
     const body = await request.json();
     const data = body;
-    const { id } = context.params
+    const { id } = await params;
 
     await connectToDatabase();
 
