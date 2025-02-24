@@ -1,0 +1,64 @@
+.container{
+    width: 75%;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    grid-template-rows : 30px 1fr;
+    margin-top: 20px;
+
+    span{
+        grid-row: 1;
+        grid-column : 2;
+    }
+
+    .descriptionButton{
+        grid-row: 2;
+        grid-column: 2;
+        display: flex;
+        align-items: start;
+        padding: 10px;
+        font-size : 15px;
+        height : 70px;
+        border: 0;
+        border-radius : 3px;
+        background-color : #e4e6ea;
+    }
+    
+    .editor{
+        width: 100%;
+        grid-row : 2;
+        grid-column : 2;
+        
+        button{
+            height: 35px;
+            border-radius: 3px;
+            font-size: 15px;
+            border: 0;
+            
+            &:first-of-type{
+                //save button
+                background-color: #0c66e4;
+                color: white;
+                margin-right: 5px;
+            }
+        }
+
+        textarea{
+            width: 100%;
+            min-height: 100px;
+            resize : none;
+            border: 0;
+            border-radius : 5px;
+            padding: 5px;
+            font-size : 15px;
+
+            &:focus{
+                outline: 2px solid #388bff;
+            }
+        }
+
+    }
+
+    
+
+
+}

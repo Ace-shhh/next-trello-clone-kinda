@@ -4,6 +4,8 @@ interface ICard extends Document{
     _id : string;
     title : string;
     description : string;
+    watchers : mongoose.Types.ObjectId[];
+    comments : mongoose.Types.ObjectId[];
 }
 
 const CardSchema = new Schema<ICard>({
@@ -14,6 +16,14 @@ const CardSchema = new Schema<ICard>({
     description : {
         type : String,
     },
+    watchers : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    comments : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Comment'
+    }]
 
 }, {timestamps : true});
 

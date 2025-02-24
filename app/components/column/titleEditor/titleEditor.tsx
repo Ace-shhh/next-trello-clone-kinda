@@ -19,7 +19,8 @@ export default function TitleEditor({columnId, title} : {columnId : string, titl
         autoResize();
     };
 
-    function autoResize(){
+ 
+   function autoResize(){
         if(textAreaRef.current){
             textAreaRef.current.style.height = "auto";
             const scrollHeight = textAreaRef.current.scrollHeight;

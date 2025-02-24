@@ -1,6 +1,6 @@
 'use client'
 import {User} from '@/app/lib/definitions'
-import { useState, useContext, createContext, ReactNode} from 'react';
+import { useState, useContext, createContext, ReactNode, useEffect} from 'react';
 import { useRouter } from 'next/navigation'
 
 interface UserContextType {
@@ -19,9 +19,27 @@ export function useUserContext() {
     return context;
 } 
 
+
+
 export default function UserContextProvider({children} : {children : ReactNode}){
     const [userInfo, setUserInfo] = useState<User>(); 
     const router = useRouter();
+
+    useEffect(()=>{
+        if(typeof window !== undefined){
+            const cached = localStorage.getItem('userInfo');
+            if(cached){
+                setUserInfo(JSON.parse(cached));
+            };
+        };
+    },[]);
+
+
+    useEffect(()=>{
+        if(userInfo){
+            localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        }
+    },[userInfo]);
 
     const login: UserContextType['login']= async(email, password) =>{
         try{
@@ -33,12 +51,11 @@ export default function UserContextProvider({children} : {children : ReactNode})
                 body : JSON.stringify({email, password})
             })
 
-            if(!response.ok){
-                const errorData = await response.json();
-                throw new Error(errorData.error || "Failed to log in")
-            }
-            
             const json = await response.json();
+
+            if(!response.ok){
+                throw new Error(json.error || "Failed to log in")
+            }
             setUserInfo(json.data)
             localStorage.setItem('userInfo', JSON.stringify(json.data))
             router.push('/workspaces')

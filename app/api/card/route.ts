@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Card, Column } from '@/app/lib/models';
 import connectToDatabase from '@/app/lib/mongodb';
+
 export async function POST(request : NextRequest){
     const body = await request.json();
     const { title, columnId } = body;
-
-    console.log('title : ', title);
-    console.log('columnId : ', columnId);
     
     await connectToDatabase();
 
@@ -51,6 +49,33 @@ export async function POST(request : NextRequest){
         return NextResponse.json(
             {error : "Internal server error"},
             {status: 500}
+        )
+    }
+}
+
+export async function GET(request : NextRequest){
+    const { searchParams } = request.nextUrl;
+    const id = searchParams.get('id');
+
+    await connectToDatabase();
+
+    try{
+        const fetchedCard = await Card.findById(id).populate({path : 'comments', populate : 'user'});
+
+        if(!fetchedCard){
+            return NextResponse.json(
+                { error : 'Card id not found. Missing or invalid' },
+                { status : 404 }
+            );
+        }
+
+        return NextResponse.json({ data : fetchedCard})
+    }
+    catch(error){
+        console.log(error);
+        return NextResponse.json(
+            { error : 'Internal server error.' },
+            {status : 500 }
         )
     }
 }

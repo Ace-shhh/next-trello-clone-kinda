@@ -6,31 +6,34 @@ import AddColumn from '@/app/components/board/addColumn';
 import Column from '@/app/components/column/column';
 import { useBoardContext } from '@/context/boardContext';
 import DragAndDropProvider from '@/app/components/dragAndDrop/DragAndDropProvider';
+import { toast } from 'react-toastify';
+import { CustomError } from '@/app/lib/definitions';
+import { getBoard } from '@/services/boardService';
+import CardDetails from '@/app/components/card/cardDetails/cardDetails';
+
 export default function Board(){
-    const {boardInfo, setBoardInfo} = useBoardContext();
+    const {boardInfo, setBoardInfo, selectedCardId} = useBoardContext();
     const params = useParams();
     const { id } = params;
 
     useEffect(()=>{
-        console.log(id)
         async function fetchBoardInfo(){
-            const response = await fetch('/api/board', {
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify({id})
-            });
-            
-            if(!response.ok){
-                const json = await response.json();
-                console.log(json.error);
-                alert(json.error);
-            };
+            try{
+                const result = await getBoard({boardId : id as string});
 
-            const json = await response.json();
-            console.log(json.data)
-            setBoardInfo(json.data);
+                if(!result){
+                    throw new CustomError('Something went wrong. Please try again later.')
+                }
+
+                setBoardInfo(result);
+            }
+            catch(error : unknown){
+                if(error instanceof CustomError){
+                    toast.error(error.message, {autoClose : 5000})
+                }else{
+                    toast.error('Unexpected error occured please try again later.', {autoClose : 5000})
+                }
+            }
         }
 
         fetchBoardInfo();
@@ -47,12 +50,13 @@ export default function Board(){
                 <h2>{boardInfo.title}</h2>
             </div>
             <div className={styles.cardsContainer}>
-                <DragAndDropProvider items={boardInfo.columns.map(col => col._id)}>
+                <DragAndDropProvider items={boardInfo.columns.map(col => `column-${col._id}`)}>
                     {boardInfo.columns.map((col)=>
-                    <Column key={col._id} data={col}/>)}
+                    <Column key={col._id} data={col} overlay={null}/>)}
                 </DragAndDropProvider>
                 <AddColumn boardId={boardInfo._id}/>
             </div>
+            {selectedCardId && <CardDetails id={selectedCardId}/>}
         </div>
     )   
 }

@@ -1,0 +1,13 @@
+.container{
+    margin-top: 10px;
+    width: 75%;
+
+    .header{
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        h3{
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

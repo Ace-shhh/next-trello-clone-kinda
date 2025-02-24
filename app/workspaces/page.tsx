@@ -1,21 +1,15 @@
 'use client'
 import styles from './page.module.scss';
-import Workspace from '../components/workspace/workspace';
+import Workspace from '../components/workspaces/workspace/workspace';
 import { IWorkspace } from '../lib/definitions';
-import { useEffect, useState } from 'react';
-import { User } from '@/app/lib/definitions';
+import AddWorkspace from '../components/workspaces/addWorkspace/AddWorkspace';
+import { useUserContext } from '@/context/userContext';
 
 export default function Workspaces(){
-    const [userInfo, setUserInfo] = useState<User>();
-
-    useEffect(()=>{
-        const storedUser = localStorage.getItem('userInfo') || null;
-        const parsed = storedUser? JSON.parse(storedUser) : null;
-        setUserInfo(parsed);
-    },[])
+    const { userInfo } = useUserContext();
 
     if(!userInfo){
-        return <div> Loading.. </div>
+        return <div>Loading...</div>
     }
 
     return(
@@ -23,6 +17,7 @@ export default function Workspaces(){
             <div>
                 <h1>Your Workspaces</h1>
                 {userInfo.ownWorkspaces.map((ws : IWorkspace, index : number)=><Workspace key={index} data={ws} />)}
+                <AddWorkspace/>
             </div>
             <div>
                 <h1>Other Workspaces</h1>

@@ -1,0 +1,72 @@
+.form{
+    height: 500px;
+    width: 500px;
+    background-color: #f1f1f4;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .spinner{
+        height: 20px;
+        width: 20px;
+        margin: auto;
+        border: 2px solid white;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+    }
+
+    label{
+        font-size: 20px;
+    }
+
+    input{
+        width: 100%;
+        box-sizing: border-box;
+        height: 50px;
+        padding: 10px;
+        outline: none;
+        border-radius: 5px;
+        border: 2px solid transparent;
+        transition: border 0.2s;
+        font-weight: 500;
+        font-size: 15px;
+        letter-spacing: 1px;
+        &:focus{
+            border-color: #0c66e4;
+        }
+    }
+
+    button{
+        width: 100%;
+        height: 40px;
+        border: 0;
+        font-size: 15px;
+        border-radius: 5px;
+
+        &:first-of-type{
+            background-color: #0c66e4;
+            color: white;
+        }
+
+        &:hover{
+            filter: brightnes(0.8)
+        }
+    }
+}
+
+.createWorkspace{
+    cursor : pointer;
+    color : #0c66e4;
+}
+
+.error{
+    color : red;
+}
+
+@keyframes spin{
+    to {
+        transform : rotate(360deg)
+    }
+}

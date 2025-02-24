@@ -12,6 +12,7 @@ export type User = {
     email : string,
     ownWorkspaces : IWorkspace[],
     otherWorkspaces : IWorkspace[],
+    profilePicture : string,
 }
 
 export type IBoard = {
@@ -39,7 +40,27 @@ export type ICard = {
     title : string;
     description : string;
     ticketNumber : number;
-    comments : string;
+    comments : IComment[];
     webhookEvents : string;
-    watchers : User[];
+    watchers : string[];
+}
+
+export type IComment = {
+    _id : string
+    comment : string;
+    user : User;
+    createdAt : Date;
+    updatedAt : Date;
+}
+
+export class CustomError extends Error {
+    status? : number;
+
+    constructor(message : string, status? : number){
+        super(message);
+        this.status = status;
+        if(Error.captureStackTrace){
+            Error.captureStackTrace(this, CustomError)
+        }
+    }
 }

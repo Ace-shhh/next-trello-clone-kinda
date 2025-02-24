@@ -3,7 +3,7 @@ import styles from './addCard.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { createCard } from '@/services/cardService';
 import { useBoardContext } from '@/context/boardContext';
-export default function AddCard({columnId} : {columnId : string}){
+export default function AddCard({columnId, overlay} : {columnId : string, overlay : boolean | null}){
     const [addCard, setAddCard] = useState<boolean>(false)
     const [cardTitle, setCardTitle] = useState<string>('');
     const { setBoardInfo } = useBoardContext();
@@ -84,7 +84,7 @@ export default function AddCard({columnId} : {columnId : string}){
             </div>
         ) : 
         (
-            <button className={styles.button} onClick={()=> setAddCard(true)}>
+            <button className={`${styles.button} ${overlay? styles.overlay : null}`} onClick={()=> setAddCard(true)}>
             + AddCard
             </button>
         )}
