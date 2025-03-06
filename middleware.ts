@@ -1,5 +1,5 @@
 import {NextResponse, NextRequest} from 'next/server';
-import { jwtVerify } from 'jose';
+import { jwtVerify, decodeJwt } from 'jose';
 
 
 export async function middleware(req : NextRequest){
@@ -15,7 +15,19 @@ export async function middleware(req : NextRequest){
     try{
         const secret = new TextEncoder().encode(process.env.JWT_SECRET as string);
         await jwtVerify(token, secret);
-        return NextResponse.next();
+
+        const payload = decodeJwt(token) as { userId ? : string};
+
+        if(!payload.userId) {
+            return new NextResponse('Unautorized', {status : 401});
+        };
+
+        const requestHeaders = new Headers(req.headers)
+        requestHeaders.set('x-user-id', payload.userId);
+
+        return NextResponse.next({request : {
+            headers : requestHeaders
+        }});
     }
     catch(error : unknown){
         console.error('JWT verification error : ', error)

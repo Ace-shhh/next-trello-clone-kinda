@@ -2,20 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Board } from '@/app/lib/models/index';
 import { Workspace } from "@/app/lib/models/index";
-import { cookies } from 'next/headers';
 
 export async function GET(request : NextRequest){
     const { searchParams } = request.nextUrl;
-    const id = searchParams.get('id');
+    const boardId = searchParams.get('id');
+    const wsId = searchParams.get('wsId');
+    const userId = request.headers.get('x-user-id');
 
-    const cookieStore = cookies();
-    const token = (await cookieStore).get('token')?.value;
-    
-    if(!token) console.log('no token');
-    
-    if(!id){
+    if(!boardId || !wsId){
         return NextResponse.json(
-            {message : 'Board ID is required'},
+            {message : 'Board ID and Workspace Id is required'},
             {status : 400}
         );
     };
@@ -23,7 +19,34 @@ export async function GET(request : NextRequest){
     await connectToDatabase();
 
     try{
-        const board = await Board.findById(id).populate(
+        const workspace = await Workspace.findById(wsId);
+
+        if(!workspace){
+            return NextResponse.json(
+                {error : 'Invalid workspace ID'},
+                {status : 404},
+            );
+        };
+
+        const isUserMember = workspace.members.some((user)=> user.userId.toString() === userId);
+
+        if(!isUserMember){
+            return NextResponse.json(
+                {error : 'User is not a member of the workspace'},
+                {status : 403},
+            );
+        };
+
+        const isBoardInWorkspace = workspace.boards.some(board=> board.toString() === boardId);
+
+        if(!isBoardInWorkspace){
+            return NextResponse.json(
+                {error : 'Board does not exist in workspace'},
+                {status : 404},
+            );
+        };
+
+        const board = await Board.findById(boardId).populate(
             {path : 'columns', populate : 'cards'},
         );
 
@@ -36,8 +59,7 @@ export async function GET(request : NextRequest){
 
         return NextResponse.json(
             {data : board}
-        )
-
+        );
     }
     catch(error){
         console.log(error);
@@ -47,6 +69,8 @@ export async function GET(request : NextRequest){
         )
     }
 }
+
+
 
 interface createBoardRequestBody{
     title : string,

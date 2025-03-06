@@ -30,9 +30,9 @@ export async function createBoard({title, description, workspaceId} : createBoar
     }
 }
 
-export async function getBoard({boardId} : {boardId : string}){
+export async function getBoard({boardId, wsId} : {boardId : string, wsId : string}){
     try{
-        const response = await fetch(`/api/board?id=${boardId}`,{
+        const response = await fetch(`/api/board?id=${boardId}&wsId=${wsId}`,{
             method : 'GET',
             headers : {'Content-Type' : 'application/json'}
         });

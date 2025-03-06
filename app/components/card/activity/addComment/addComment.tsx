@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { createComment } from '@/services/commentService';
 import { CustomError } from '@/app/lib/definitions';
 import { useBoardContext } from '@/context/boardContext';
+import ProfilePicture from '@/app/components/user/profilePicture/profilePicture';
 
 export default function AddComment(){
     const [newComment, setNewComment] = useState<string>('');
@@ -41,11 +42,6 @@ export default function AddComment(){
                 if(!prev.comments) return {...prev, commments : [result]};
                 return {...prev, comments : [...prev.comments, result]}
             })
-            // setCurrComments(prev=>{
-                // if(!prev) return [result];
-                // return [...prev, result];
-            // });
-
         }
         catch(error){
             if(error instanceof CustomError){
@@ -54,12 +50,16 @@ export default function AddComment(){
             else{
                 toast.error(String(error))
             };
-        };
+        }
+        finally{
+            setAddComment(false);
+        }
+        ;
     };
 
     return(
         <div className={styles.container}>
-            <span className={styles.userProfilePicture}>{userInfo.profilePicture? userInfo.profilePicture : userInfo.username[0].toUpperCase()}</span>
+            <ProfilePicture customProfilePicture={userInfo.profilePicture} customUserName={userInfo.username} hoverEffect={false} size={30}/>
             {
                 addComment? (
                     <div className={styles.inputContainer}>

@@ -1,12 +1,13 @@
 'use client'
-import {User} from '@/app/lib/definitions'
+import {User} from '@/app/lib/definitions';
 import { useState, useContext, createContext, ReactNode, useEffect} from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 interface UserContextType {
     userInfo? : User;
     setUserInfo : React.Dispatch<React.SetStateAction<User | undefined>>;
     login : (email : string, password : string) => void;
+    logout : () => void;
 };
 
 const UserContext = createContext <UserContextType | null>(null);
@@ -64,10 +65,29 @@ export default function UserContextProvider({children} : {children : ReactNode})
             console.log(error);
             alert(error.message);
         }
-    }
+    };
+
+    async function logout(){
+        try{
+            const response = await fetch('/api/user/logout',{
+                method : 'POST',
+                credentials : 'include',
+            })
+
+            if(response.ok){
+                router.push('/login');
+                setUserInfo(undefined);
+                localStorage.removeItem('userInfo');
+            }
+        }   
+        catch(error : unknown){
+            console.log('Logout error', error)
+        };
+
+    };
 
     return(
-        <UserContext.Provider value={{userInfo, setUserInfo, login}}>
+        <UserContext.Provider value={{userInfo, setUserInfo, login, logout}}>
             {children}
         </UserContext.Provider>
     )

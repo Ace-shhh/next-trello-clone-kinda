@@ -3,8 +3,13 @@ import mongoose, {Schema, Model} from 'mongoose';
 interface IWorkspace{
     name : string;
     description?: string;
-    members: mongoose.Types.ObjectId;
-    boards : mongoose.Types.ObjectId;
+    members: Member[];
+    boards : mongoose.Types.ObjectId[];
+}
+
+interface Member{
+    userId : mongoose.Types.ObjectId;
+    role : string;
 }
 
 const WorkspaceSchema = new Schema<IWorkspace>({

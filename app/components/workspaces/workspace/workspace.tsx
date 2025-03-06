@@ -5,7 +5,7 @@ import AddBoard from '../addBoard/addBoard';
 import AddMember from '../addMember/addMember';
 import Link from 'next/link'
 
-export default function Workspace({data}: {data : IWorkspace}){
+export default function Workspace({data, role}: {data : IWorkspace, role : string}){
     
     return(
         <div className={styles.container}>
@@ -15,7 +15,7 @@ export default function Workspace({data}: {data : IWorkspace}){
             </div>
             <div className={styles.boards_container}>
                 {data.boards.map((board : IBoard)=>
-                <Link href={`/board/${board._id}`} key={board._id} className={styles.board}>
+                <Link href={`/board/${board._id}?wsId=${data._id}&role=${role}`} key={board._id} className={styles.board}>
                     {board.title}
                 </Link>
                 )}

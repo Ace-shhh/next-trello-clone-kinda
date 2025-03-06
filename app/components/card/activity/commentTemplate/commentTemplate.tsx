@@ -1,5 +1,6 @@
 import { IComment } from '@/app/lib/definitions';
 import styles from './commentTemplate.module.scss';
+import ProfilePicture from '@/app/components/user/profilePicture/profilePicture';
 
 export default function CommentTemplate({commentInfo} : {commentInfo : IComment}){
     const date = new Date(commentInfo.createdAt).toLocaleString('en-US',{
@@ -16,13 +17,7 @@ export default function CommentTemplate({commentInfo} : {commentInfo : IComment}
     return(
         <div className={styles.container}>
             <div className={styles.profilePictureDiv}>
-                { commentInfo.user.profilePicture? 
-                    (
-                    <img className={styles.profilePictureImg} src={commentInfo.user.profilePicture}></img>
-                    ) : (
-                        <span className={styles.profilePictureSpan}>{commentInfo.user.username[0].toUpperCase()}</span>
-                    ) 
-                }
+                <ProfilePicture customProfilePicture={commentInfo.user.profilePicture} customUserName={commentInfo.user.username} hoverEffect={false} size={30}/>
             </div>
             <div>
                 <span className={styles.userName}>{commentInfo.user.username}</span>

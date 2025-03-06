@@ -25,16 +25,16 @@ export async function POST(request : NextRequest){
                 columnId,
                 {$push : {cards : newCard}},
                 {new : true},
-            )
+            );
 
             if(!updatedColumn){
                 return NextResponse.json(
                     {error : "Error linking card to column. Column not found"},
                     {status : 404}
                 );
-            }
+            };
 
-            return NextResponse.json({data : newCard})
+            return NextResponse.json({data : newCard});
         
         }
         catch(error){
@@ -42,16 +42,16 @@ export async function POST(request : NextRequest){
             return NextResponse.json(
                 {error : `Error linking card to column. CardId = , ${newCard._id}`}
             );
-        }
+        };
     }
     catch(error){
         console.log(error);
         return NextResponse.json(
             {error : "Internal server error"},
             {status: 500}
-        )
-    }
-}
+        );
+    };
+};
 
 export async function GET(request : NextRequest){
     const { searchParams } = request.nextUrl;
@@ -60,7 +60,7 @@ export async function GET(request : NextRequest){
     await connectToDatabase();
 
     try{
-        const fetchedCard = await Card.findById(id).populate({path : 'comments', populate : 'user'});
+        const fetchedCard = await Card.findById(id).populate({path : 'comments', options : { sort : { createdAt : -1 }}, populate : 'user'});
 
         if(!fetchedCard){
             return NextResponse.json(

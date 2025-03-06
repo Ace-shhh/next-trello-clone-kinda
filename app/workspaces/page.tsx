@@ -16,11 +16,12 @@ export default function Workspaces(){
         <div className={styles.container}>
             <div>
                 <h1>Your Workspaces</h1>
-                {userInfo.ownWorkspaces.map((ws : IWorkspace, index : number)=><Workspace key={index} data={ws} />)}
+                {userInfo.ownWorkspaces.map((ws : IWorkspace, index : number)=><Workspace key={index} data={ws} role={'owner'}/>)}
                 <AddWorkspace/>
             </div>
             <div>
                 <h1>Other Workspaces</h1>
+                {userInfo.otherWorkspaces.map((ws : IWorkspace, index : number)=><Workspace key={index} data={ws} role={'member'}/>)}
             </div>
         </div>
     )

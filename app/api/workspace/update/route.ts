@@ -25,9 +25,11 @@ export async function POST(request : NextRequest){
             );
         };
 
-        
-
-
+        //user update
+        await User.updateMany(
+            { _id : {$in : body.data}},
+            { $push : { otherWorkspaces : workspaceId }},
+        );
 
         return NextResponse.json({ data : updatedWorkspace.members })
     }

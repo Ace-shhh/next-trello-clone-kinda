@@ -36,7 +36,7 @@ export async function POST(request : NextRequest){
             );
         };
 
-        const userData = {id : user._id, email : user.email};
+        const userData = {userId : user._id, email : user.email};
 
         const token = jwt.sign(userData, jwtSecret, {expiresIn : '2h'});
         user.password = '';

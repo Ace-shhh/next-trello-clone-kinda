@@ -1,0 +1,56 @@
+.container{
+    margin-left: auto;
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+
+    .menu{
+        min-height: 50px;
+        width: 300px;
+        padding: 10px;
+        background-color: #0c66e4;
+        position: absolute;
+        top: 110%;
+        right: 10%;
+        z-index : 999;
+
+        border-radius: 5px;
+
+        .account{
+            h2{
+                font-size : 15px;
+                margin: 0 0 5px 0;
+            }
+
+            .accountDiv{
+                height: 50px;
+                display: flex;
+
+                .nameEmailDiv{
+                    span{
+                        display: block;
+                        margin-left: 5px;
+                        font-size: 13px;
+                        color: white;
+                    }
+                }
+            }
+        }
+
+        button{
+            height: 35px;
+            width: 100%;
+            padding: 3px;
+            border-radius: 3px;
+            border: 0;
+            text-align: start;
+            font-size: 15px;
+            background-color: #f1f2f4;
+            margin-top: 4px;
+        }
+    }
+}

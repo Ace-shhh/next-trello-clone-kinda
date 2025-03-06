@@ -1,9 +1,10 @@
 'use client'
 import styles from './addColumn.module.scss';
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { createColumn } from '@/services/columnService';
 import { useBoardContext } from '@/context/boardContext';
+
 export default function AddColumn({boardId} : {boardId : string}){
     const [addColumn, setAddColumn] = useState<boolean>(false);
     const [newColumnTitle, setNewColumnTitle] = useState<string>('');
@@ -21,7 +22,6 @@ export default function AddColumn({boardId} : {boardId : string}){
         setIsLoading(true);
         try{
             const result = await createColumn({title : newColumnTitle, boardId});
-            console.log('Column created : ', result);
 
             setBoardInfo((prev)=> {
                 if (!prev) return prev;
@@ -60,4 +60,4 @@ export default function AddColumn({boardId} : {boardId : string}){
             )}
         </div>
     )
-}
+};

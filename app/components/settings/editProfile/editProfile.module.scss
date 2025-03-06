@@ -1,0 +1,61 @@
+.container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+    .profilePictureContainer{
+        height: 300px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border : 0;
+        border-bottom: 1px solid black;
+
+        span{
+            margin-top: 5px;
+        }
+
+        button{
+            margin-top: 20px;
+            height: 30px;
+            border : 1px solid black;
+            border-radius: 5px;
+        }
+    }
+
+    .editForm{
+        padding: 10px;
+        width: 100%;
+
+        label{
+            display: block;
+        }
+
+        input{
+            border: 0;
+            height: 30px;
+            width: 250px;
+            border-radius: 3px;
+            padding: 5px;
+            outline-color: var(--outline);
+        }
+
+        .saveButton{
+            display: block;
+            height: 30px;
+            width : 60px;
+            border-radius: 3px;
+            border: 0;
+            margin: auto;
+            margin-top: 50px;
+            background-color: var(--outline);
+            color : white;
+            font-size : 15px;
+            letter-spacing: 1px;
+        }
+    }  
+}
