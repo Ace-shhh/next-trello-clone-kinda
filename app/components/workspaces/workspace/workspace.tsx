@@ -3,7 +3,7 @@ import styles from './workspace.module.scss';
 import { IWorkspace, IBoard } from '@/app/lib/definitions';
 import AddBoard from '../addBoard/addBoard';
 import AddMember from '../addMember/addMember';
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Workspace({data, role}: {data : IWorkspace, role : string}){
     
