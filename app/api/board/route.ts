@@ -9,8 +9,6 @@ export async function GET(request : NextRequest){
     const wsId = searchParams.get('wsId');
     const userId = request.headers.get('x-user-id');
 
-    const something;
-
     if(!boardId || !wsId){
         return NextResponse.json(
             {message : 'Board ID and Workspace Id is required'},
