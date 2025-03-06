@@ -13,6 +13,10 @@ export default [
   {languageOptions: { globals: globals.browser }},
   {rules: {
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_' }
+    ],
   }},
   {settings: {
     react: {

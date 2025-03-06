@@ -63,11 +63,11 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
         fetch();
     },[addMember]);
 
-    const existingMembers = userInfo.ownWorkspaces.find(ws=> ws._id === workspaceData._id)?.members.map(user=> user.userId)!;
+    const existingMembers = userInfo.ownWorkspaces.find(ws=> ws._id === workspaceData._id)?.members.map(user=> user.userId) ?? [];
 
     const filteredUsers = usersList?.filter((user)=>{
         const matchesSearch  = user.username.toLowerCase().includes(searchTerm.toLowerCase());
-        const notMember = !existingMembers.includes(user._id);
+        const notMember = existingMembers.includes(user._id);
         const notSelf = (user._id !== userInfo._id);
         return matchesSearch && notMember && notSelf;
     });

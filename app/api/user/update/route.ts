@@ -4,6 +4,12 @@ import connectToDatabase from "@/app/lib/mongodb";
 import { v2 as cloudinary } from 'cloudinary';
 import stream from 'stream';
 
+interface UpdatedData{
+    username? : string;
+    email? : string;
+    profilePicture? : string;
+}
+
 export async function POST(request : NextRequest){
     console.log('User update route fired')
     const { searchParams } = request.nextUrl;
@@ -15,7 +21,7 @@ export async function POST(request : NextRequest){
     const password = formData.get('password');
     const profilePicture = formData.get('profilePicture');
 
-    const updatedData : { [key : string] : any } = {};
+    const updatedData : UpdatedData = {};
 
     if(username && typeof username === "string"){
         updatedData.username = username;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import EditProfile from '../components/settings/editProfile/editProfile';
 
 export default function Settings(){
-    const [displayNumber, setDisplayNumber] = useState<Number>(1);
+    const [displayNumber, setDisplayNumber] = useState<number>(1);
     
     
     

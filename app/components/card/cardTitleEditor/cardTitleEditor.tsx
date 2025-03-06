@@ -1,6 +1,6 @@
 import styles from './cardTitleEditor.module.scss'
 import { useRef, useEffect, useState } from 'react';
-import { CustomError, ICard } from '@/app/lib/definitions';
+import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { updateCardTitle } from '@/services/cardService';
 import { useBoardContext } from '@/context/boardContext';
@@ -51,7 +51,7 @@ export default function CardTitleEditor(){
             const updatedCard = await updateCardTitle({id : cardInfo._id, title : titleTrim})
             setBoardInfo(prev=>{
                 if(!prev) return prev;
-                let updatedColumns = prev.columns.map(col=>{
+                const updatedColumns = prev.columns.map(col=>{
                     if(col._id === selectedColumn?._id){
                         const updatedCards = col.cards.map(card=>
                             card._id === cardInfo._id ? updatedCard : card

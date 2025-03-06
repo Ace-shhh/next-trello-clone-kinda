@@ -1,6 +1,6 @@
 import Overlay from '../../overlay/Overlay';
 import styles from './cardDetails.module.scss';
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useBoardContext } from '@/context/boardContext';
 import CardTitleEditor from '../cardTitleEditor/cardTitleEditor';
 import CardDescriptionEditor from '../descriptionEditor/cardDescriptionEditor';

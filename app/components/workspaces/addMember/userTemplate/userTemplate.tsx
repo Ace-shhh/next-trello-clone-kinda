@@ -6,7 +6,6 @@ export default function UserTemplate(
     username, 
     profilePicture, 
     setChange,
-    isChecked,
     } 
     : 
     {   

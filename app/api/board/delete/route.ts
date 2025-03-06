@@ -16,6 +16,8 @@ export async function DELETE(request : NextRequest){
             {status : 422},
         );
     };
+
+    await connectToDatabase();
     
     try{
         const workspace = await Workspace.findOne({
@@ -65,6 +67,7 @@ export async function DELETE(request : NextRequest){
         return NextResponse.json(null, {status : 200});
     }
     catch(error : unknown){
+        console.log(error);
         return NextResponse.json(
             {error : 'Internal server error'},
             {status : 500}

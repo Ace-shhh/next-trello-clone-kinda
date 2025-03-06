@@ -11,7 +11,7 @@ import {
     DragStartEvent,
 } from "@dnd-kit/core"
 
-import { horizontalListSortingStrategy, SortableContext, sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable"
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable"
 import React, { ReactNode, useState, useRef } from "react"
 import { useBoardContext } from '@/context/boardContext';
 import { getDragInfo, moveColumns, updateCardsWithSameColumn, moveCardToDifferentColumn } from "@/app/utils/dndHelpers";

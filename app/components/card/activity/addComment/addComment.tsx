@@ -1,6 +1,5 @@
 import styles from './addComment.module.scss';
 import { useEffect, useState } from 'react';
-import { IComment } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { createComment } from '@/services/commentService';
 import { CustomError } from '@/app/lib/definitions';
@@ -9,7 +8,6 @@ import ProfilePicture from '@/app/components/user/profilePicture/profilePicture'
 
 export default function AddComment(){
     const [newComment, setNewComment] = useState<string>('');
-    const [currComments, setCurrComments] = useState<IComment[] | null>(null);
     const [addComment, setAddComment] = useState<boolean>(false);
     const { cardInfo, setCardInfo } = useBoardContext();
 

@@ -33,7 +33,7 @@ export function getDragInfo(id : string, columns : IColumn[]){
 
 export function moveColumns({activeId, overId, boardInfo} : DndHelperParams){
     if(!boardInfo) return;
-    let updatedColumns = [...boardInfo.columns];
+    const updatedColumns = [...boardInfo.columns];
     
     const oldIndex = updatedColumns.findIndex(col=> col._id === activeId);
     const newIndex = updatedColumns.findIndex(col=> col._id === overId);
@@ -42,7 +42,7 @@ export function moveColumns({activeId, overId, boardInfo} : DndHelperParams){
 
 export function updateCardsWithSameColumn({activeId, overId, columnId, columns} : DndHelperParams){
     if(!columns) return;
-    let currentColumn = columns.find(col => col._id === columnId);
+    const currentColumn = columns.find(col => col._id === columnId);
     if(!currentColumn) return;
     const oldIndex = currentColumn.cards.findIndex(card => card._id === activeId);
     const newIndex = currentColumn.cards.findIndex(card => card._id === overId);
@@ -53,7 +53,7 @@ export function updateCardsWithSameColumn({activeId, overId, columnId, columns} 
 export function moveCardToDifferentColumn({activeId, overId, activeColumnId, overColumnId, boardInfo} : DndHelperParams) : IBoard | null{
     console.log('MoveCardToDifferentColumn fired')
     if(!boardInfo) return null;
-    let updatedBoard : IBoard = {...boardInfo};
+    const updatedBoard : IBoard = {...boardInfo};
     let cardToMove: ICard | undefined;
 
     updatedBoard.columns = updatedBoard.columns.map((col)=> {
