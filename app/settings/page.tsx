@@ -5,9 +5,7 @@ import EditProfile from '../components/settings/editProfile/editProfile';
 
 export default function Settings(){
     const [displayNumber, setDisplayNumber] = useState<number>(1);
-    
-    
-    
+
     return(
         <div className={styles.container}>
             <div className={styles.settingsDiv}>
