@@ -13,7 +13,7 @@ import {
 
 import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable"
 import React, { ReactNode, useState, useRef } from "react"
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import { getDragInfo, moveColumns, updateCardsWithSameColumn, moveCardToDifferentColumn } from "@/app/utils/dndHelpers";
 import Card from "../card/card";
 import Column from "../column/column";
@@ -33,7 +33,8 @@ type ActiveDataType={
 
 export default function DragAndDropProvider({ items, children} : {items : string[], children : ReactNode}){
     const [activeData, setActiveData] = useState<ActiveDataType | null>(null);
-    const { boardInfo, setBoardInfo } = useBoardContext();
+    const { boardInfo } = useBoardState();
+    const { setBoardInfo } = useBoardDispatch();
     const [columnIdsToUpdate, setColumnIdsToUpdate] = useState<string[]>([]);
     const [updateBoard, setUpdateBoard] = useState<boolean>(false);
     const lastUpdateTime = useRef<number>(0)

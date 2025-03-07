@@ -3,10 +3,11 @@ import { useRef, useEffect, useState } from 'react';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { updateCardTitle } from '@/services/cardService';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 
 export default function CardTitleEditor(){
-    const { setBoardInfo, selectedColumn, cardInfo} = useBoardContext();
+    const { selectedColumn, cardInfo } = useBoardState();
+    const { setBoardInfo } = useBoardDispatch();
     const [newTitle, setNewTitle] = useState<string>(cardInfo? cardInfo.title : 'null');
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const cancelUpdateRef = useRef<boolean>(false);

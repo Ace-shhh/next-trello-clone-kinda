@@ -1,5 +1,4 @@
 .textarea{
-    background-color: #ffff;
     width: 100%;
     min-height: 40px;
     font-size: 16px;
@@ -44,6 +43,11 @@
     text-align: start;
     margin-top: 10px;
     caret-color: transparent;
+    background-color: transparent;
+
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 
 .overlay{

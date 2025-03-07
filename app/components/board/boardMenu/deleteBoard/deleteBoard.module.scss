@@ -1,0 +1,54 @@
+.container{
+    width: 100%;
+
+    .divButton{
+        margin: 0;
+        padding: 0;
+        height: 35px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border: 0;
+        border-radius: 4px;
+        background-color: transparent;
+
+        &:hover{
+            background-color: #f1f2f4;
+            cursor: pointer;
+        }
+
+        .leaveIcon{
+            margin-right: 10px;
+            margin-left: 10px;
+            padding: 0;
+        }
+    }
+
+    .confirmation{
+        background-color: white;
+        width: 600px;
+        margin-top: 200px;
+        border-radius: 15px;
+        padding: 10px;
+
+        .buttonsCtn{
+            display: flex;
+            button{
+                width: 100px;
+                height: 30px;
+                border: 0;
+                border-radius: 3px;
+                color: white;
+
+                &:first-of-type{
+                    background-color: red;
+                }
+
+                &:last-of-type{
+                    margin-left: auto;
+                    color: black;
+                }
+            }
+        }
+    }
+}

@@ -3,13 +3,14 @@ import styles from './addColumn.module.scss';
 import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { createColumn } from '@/services/columnService';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch } from '@/context/boardContext';
+import { memo } from 'react';
 
-export default function AddColumn({boardId} : {boardId : string}){
+function AddColumn({boardId} : {boardId : string}){
     const [addColumn, setAddColumn] = useState<boolean>(false);
     const [newColumnTitle, setNewColumnTitle] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { setBoardInfo } = useBoardContext();
+    const { setBoardInfo } = useBoardDispatch();
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(()=>{
@@ -61,3 +62,5 @@ export default function AddColumn({boardId} : {boardId : string}){
         </div>
     )
 };
+
+export default memo(AddColumn);

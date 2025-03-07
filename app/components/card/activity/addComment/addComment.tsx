@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { createComment } from '@/services/commentService';
 import { CustomError } from '@/app/lib/definitions';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardState, useBoardDispatch } from '@/context/boardContext';
 import ProfilePicture from '@/app/components/user/profilePicture/profilePicture';
 
 export default function AddComment(){
     const [newComment, setNewComment] = useState<string>('');
     const [addComment, setAddComment] = useState<boolean>(false);
-    const { cardInfo, setCardInfo } = useBoardContext();
-
+    const { cardInfo } = useBoardState();
+    const { setCardInfo } = useBoardDispatch();
     const saved = localStorage.getItem('userInfo');
     const userInfo = saved? JSON.parse(saved) : null;
 

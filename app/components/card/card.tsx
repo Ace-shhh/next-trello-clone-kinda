@@ -2,9 +2,9 @@ import styles from './card.module.scss';
 import { ICard, IColumn } from '@/app/lib/definitions';
 import { useSortable } from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch } from '@/context/boardContext';
 export default function Card({data, overlay, columnInfo} : {data : ICard, overlay : boolean | null, columnInfo : IColumn | null}){
-    const { setSelectedCardId, setSelectedColumn } = useBoardContext();
+    const { setSelectedCardId, setSelectedColumn } = useBoardDispatch();
     
     const { attributes, listeners, setNodeRef, transform, isDragging} = useSortable({id : `card-${data._id}`})
     const style = {

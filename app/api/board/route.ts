@@ -48,7 +48,7 @@ export async function GET(request : NextRequest){
 
         const board = await Board.findById(boardId).populate(
             {path : 'columns', populate : 'cards'},
-        );
+        ).populate('archive');
 
         if(!board){
             return NextResponse.json(

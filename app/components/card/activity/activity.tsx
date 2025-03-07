@@ -1,10 +1,10 @@
 import styles from './activity.module.scss';
 import CommentTemplate from './commentTemplate/commentTemplate';
 import AddComment from './addComment/addComment';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardState } from '@/context/boardContext';
 import { useEffect } from 'react';
 export default function Activity(){
-    const { cardInfo } = useBoardContext();
+    const { cardInfo } = useBoardState();
 
     if(!cardInfo) return <div>Loading...</div>
 

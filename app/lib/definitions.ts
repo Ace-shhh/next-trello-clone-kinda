@@ -19,6 +19,7 @@ export type IBoard = {
     _id: string;
     title : string;
     columns : IColumn[];
+    archive : IColumn[];
 }
 
 export type Member = {

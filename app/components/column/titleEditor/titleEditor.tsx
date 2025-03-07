@@ -2,14 +2,14 @@
 import styles from './titleEditor.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { EditColumnTitle } from '@/services/columnService';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch } from '@/context/boardContext';
 export default function TitleEditor({columnId, title} : {columnId : string, title : string}){
     const [currentTitle, setCurrentTitle] = useState<string>(title);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const { setBoardInfo } = useBoardContext();
+    const { setBoardInfo } = useBoardDispatch();
     
     useEffect(()=>{
         autoResize();
