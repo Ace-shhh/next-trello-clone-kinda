@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react'
 import AddColumn from '@/app/components/board/addColumn';
 import Column from '@/app/components/column/column';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import DragAndDropProvider from '@/app/components/dragAndDrop/DragAndDropProvider';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
@@ -14,7 +14,8 @@ import BoardMenu from '@/app/components/board/boardMenu/boardMenu';
 
 export default function Board(){
     const [showMenu, setShowMenu] = useState<boolean>(false);
-    const {boardInfo, setBoardInfo, selectedCardId} = useBoardContext();
+    const { setBoardInfo } = useBoardDispatch();
+    const { boardInfo, selectedCardId } = useBoardState();
     const params = useParams();
     const searchParams = useSearchParams();
     const { id } = params;
@@ -67,7 +68,7 @@ export default function Board(){
                 </div>
             </div>
             <div className={`${styles.boardMenu} ${showMenu? styles.grow : ''}`}>
-                <BoardMenu onClose={handleClose} role={role || ''} wsId={wsId} boardId={id as string}/>
+                <BoardMenu onClose={handleClose}/>
             </div> 
             {selectedCardId && <CardDetails id={selectedCardId}/>}
         </div>

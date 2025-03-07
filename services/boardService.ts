@@ -76,3 +76,45 @@ export async function udpateColumnOrder(id : string, columns : IColumn[]){
         throw error;
     }
 }
+
+export async function archiveColumn(boardId : string, columnId : string, action : string){
+    try{
+        const response = await fetch(`/api/board/update/archive?boardId=${boardId}&columnId=${columnId}&action=${action}`,{
+            method : "PATCH",
+            credentials : 'include',
+        })
+
+        const json = await response.json();
+
+        if(!response.ok){
+            throw new CustomError(json.error, response.status);
+        };
+
+        return json.data;
+    }
+    catch(error){
+        console.log(error);
+        throw error;
+    };
+};
+
+export async function deleteBoard(boardId: string, wsId : string){
+    try{
+        const response = await fetch(`/api/board/delete?boardId=${boardId}&wsId=${wsId}`,{
+            method : "DELETE",
+            credentials : 'include'
+        });
+
+        const json = await response.json();
+
+        if(!response.ok){
+            throw new CustomError(json.error, response.status)
+        }
+
+        return;
+    }
+    catch(error){
+        console.log(error);
+        throw error;
+    }
+};

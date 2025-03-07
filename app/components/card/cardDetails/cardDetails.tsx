@@ -1,7 +1,7 @@
 import Overlay from '../../overlay/Overlay';
 import styles from './cardDetails.module.scss';
 import { useEffect, useRef } from 'react'
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import CardTitleEditor from '../cardTitleEditor/cardTitleEditor';
 import CardDescriptionEditor from '../descriptionEditor/cardDescriptionEditor';
 import Notifications from '../notifications/notifications';
@@ -11,7 +11,8 @@ import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 
 export default function CardDetails({id} : {id : string}){
-    const { setCardInfo, setSelectedColumn, cardInfo, setSelectedCardId } = useBoardContext();
+    const { setCardInfo, setSelectedColumn, setSelectedCardId } = useBoardDispatch();
+    const { cardInfo } = useBoardState();
     const detailsRef = useRef<HTMLDivElement | null>(null);
 
 

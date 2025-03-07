@@ -1,11 +1,12 @@
 import styles from './cardDescriptionEditor.module.scss';
 import { useState, useRef, useEffect } from 'react';
 import { updateCardDescription } from '@/services/cardService';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 export default function CardDescriptionEditor(){
-    const { cardInfo, setCardInfo } = useBoardContext();
+    const { setCardInfo } = useBoardDispatch();
+    const { cardInfo } = useBoardState()
     if(!cardInfo) return <div>Loading...</div>
 
     const [edit, setEdit] = useState<boolean>(false);

@@ -2,14 +2,13 @@
 import styles from './addCard.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { createCard } from '@/services/cardService';
-import { useBoardContext } from '@/context/boardContext';
+import { useBoardDispatch } from '@/context/boardContext';
 export default function AddCard({columnId, overlay} : {columnId : string, overlay : boolean | null}){
     const [addCard, setAddCard] = useState<boolean>(false)
     const [cardTitle, setCardTitle] = useState<string>('');
-    const { setBoardInfo } = useBoardContext();
+    const { setBoardInfo } = useBoardDispatch();
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    //on addcard textarea focus
     useEffect(()=>{
         if(addCard && textAreaRef.current){
             const timeout = setTimeout(()=>{
@@ -22,7 +21,6 @@ export default function AddCard({columnId, overlay} : {columnId : string, overla
 
     },[addCard])
 
-    //dynamic textarea height
     function handleInput(){
         if (textAreaRef.current){
             textAreaRef.current.style.height = 'auto';
@@ -85,7 +83,7 @@ export default function AddCard({columnId, overlay} : {columnId : string, overla
         ) : 
         (
             <button className={`${styles.button} ${overlay? styles.overlay : null}`} onClick={()=> setAddCard(true)}>
-            + AddCard
+            + Add a card
             </button>
         )}
         </>
