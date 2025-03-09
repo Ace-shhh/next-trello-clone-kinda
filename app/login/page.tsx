@@ -32,7 +32,7 @@ export default function Login(){
                 <div>
                     <h3>Try it</h3>
                     <p>Email : test1@gmail.com</p>
-                    <p>Password : test1111</p>
+                    <p>Password : test3333</p>
                     <p>or</p>
                     <p>Email : test4@gmail.com</p>
                     <p>Password : test4444</p>
