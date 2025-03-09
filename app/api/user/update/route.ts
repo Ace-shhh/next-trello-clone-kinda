@@ -11,7 +11,7 @@ interface UpdatedData{
 }
 
 export async function POST(request : NextRequest){
-    console.log('User update route fired')
+    
     const { searchParams } = request.nextUrl;
     const id = searchParams.get('id');
     const formData = await request.formData();

@@ -6,9 +6,11 @@ import CardTitleEditor from '../cardTitleEditor/cardTitleEditor';
 import CardDescriptionEditor from '../descriptionEditor/cardDescriptionEditor';
 import Notifications from '../notifications/notifications';
 import Activity from '../activity/activity';
+import GithubPullRequests from '../githubPullRequests/githubPullRequests';
 import { fetchCardInfo } from '@/services/cardService';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
+import CustomSpinner from '../../loading/CustomSpinner/customSpinner';
 
 export default function CardDetails({id} : {id : string}){
     const { setCardInfo, setSelectedColumn, setSelectedCardId } = useBoardDispatch();
@@ -51,7 +53,8 @@ export default function CardDetails({id} : {id : string}){
         fetchInfo();
     },[]);
     
-    if(!cardInfo) return <div>Loading...</div>
+    const center = window.innerHeight * 0.5;
+    if(!cardInfo) return <Overlay><CustomSpinner size={50} color='white' borderWidth={4} marginTop={center}/></Overlay>
 
     return (
         <Overlay>
@@ -59,6 +62,7 @@ export default function CardDetails({id} : {id : string}){
                 <CardTitleEditor/>
                 <Notifications/>
                 <CardDescriptionEditor/>
+                <GithubPullRequests/>
                 <Activity/>
             </div>
         </Overlay>

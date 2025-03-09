@@ -4,6 +4,8 @@ import { updateCardNotification } from '@/services/cardService';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { useBoardDispatch, useBoardState } from '@/context/boardContext';
+
+
 export default function Notifications(){
     const { cardInfo } = useBoardState();
     const { setCardInfo } = useBoardDispatch()

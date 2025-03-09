@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Card, Column } from '@/app/lib/models';
+import { Card, Column, Count } from '@/app/lib/models';
 import connectToDatabase from '@/app/lib/mongodb';
 
 export async function POST(request : NextRequest){
@@ -9,7 +9,17 @@ export async function POST(request : NextRequest){
     await connectToDatabase();
 
     try{
-        const newCard = new Card({title : title});
+        const updatedCardCount = await Count.findOneAndUpdate(
+            {name : 'CardTicket'},
+            {$inc : {count : 1}},
+            {
+                new : true,
+                upsert : true,
+                setDefaultsOnInsert : true,
+            },
+        );
+
+        const newCard = new Card({title : title, ticketNumber : updatedCardCount.count});
 
         await newCard.save();
 
@@ -60,7 +70,7 @@ export async function GET(request : NextRequest){
     await connectToDatabase();
 
     try{
-        const fetchedCard = await Card.findById(id).populate({path : 'comments', options : { sort : { createdAt : -1 }}, populate : 'user'});
+        const fetchedCard = await Card.findById(id).populate({path : 'comments', options : { sort : { createdAt : -1 }}, populate : 'user'}).populate('webhookEvents');
 
         if(!fetchedCard){
             return NextResponse.json(

@@ -6,6 +6,8 @@ interface ICard extends Document{
     description : string;
     watchers : mongoose.Types.ObjectId[];
     comments : mongoose.Types.ObjectId[];
+    ticketNumber : Number;
+    webhookEvents : mongoose.Types.ObjectId[];
 }
 
 const CardSchema = new Schema<ICard>({
@@ -23,7 +25,15 @@ const CardSchema = new Schema<ICard>({
     comments : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Comment'
-    }]
+    }],
+    ticketNumber : {
+        type : Number,
+        required : true,
+    },
+    webhookEvents : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'WebhookEvent'
+    }],
 
 }, {timestamps : true});
 

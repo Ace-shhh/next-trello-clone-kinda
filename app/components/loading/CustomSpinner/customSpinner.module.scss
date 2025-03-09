@@ -1,0 +1,12 @@
+.spinner{
+    border-radius: 50%;
+    border-style : solid;
+    border-top-color: transparent;
+    animation : spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to{ 
+        rotate : 360deg
+    }
+}

@@ -9,7 +9,7 @@
 
     .formContainer{
         background-color: #f1f1f4;
-        height: 500px;
+        min-height: 500px;
         width: 400px;
         border-radius: 10px;
         display: flex;
@@ -45,7 +45,10 @@
                 font-size: 15px;
                 border: 0;
                 margin: 0 auto 0 auto;
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
 
                 &:hover{
                     cursor: pointer;

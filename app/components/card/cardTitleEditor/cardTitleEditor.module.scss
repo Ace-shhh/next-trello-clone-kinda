@@ -1,16 +1,27 @@
 .container{
-    width : 90%;
+    width : 100%;
     display: grid;
-    grid-template-columns : 30px 1fr;
+    grid-template-columns : 30px 1fr 50px;
+    grid-template-rows : 30px 1fr;
+    gap: 0px 10px;
+
+    .icon{
+        grid-column: 1;
+        grid-row: 1;
+        margin: 3 auto 0 auto;
+        color : var(--fontColor)
+    }
 
     .listName{
         grid-column: 2;
         margin: 0;
         padding: 0;
+        color: var(--fontColor)
     }
 
     .textarea{
         grid-column: 2;
+        grid-row: 1;
         height: auto;
         width: 100%;
         resize: none;
@@ -27,5 +38,11 @@
             background-color: white;
             outline : 2px solid #388bff;
         }
+    }
+
+    .ticketNumber{
+        grid-column: 3;
+        grid-row: 1;
+        width: 100%;
     }
 }
