@@ -5,7 +5,17 @@
     .header{
         display: grid;
         grid-template-columns: 30px 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .icon{
+            grid-column: 1;
+            margin: auto;
+            color : var(--fontColor)
+        }
+
         h3{
+            grid-column: 2;
             margin: 0;
             padding: 0;
         }

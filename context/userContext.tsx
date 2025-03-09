@@ -8,6 +8,7 @@ interface UserContextType {
     setUserInfo : React.Dispatch<React.SetStateAction<User | undefined>>;
     login : (email : string, password : string) => void;
     logout : () => void;
+    loading : boolean;
 };
 
 const UserContext = createContext <UserContextType | null>(null);
@@ -23,7 +24,8 @@ export function useUserContext() {
 
 
 export default function UserContextProvider({children} : {children : ReactNode}){
-    const [userInfo, setUserInfo] = useState<User>(); 
+    const [userInfo, setUserInfo] = useState<User>();
+    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
     useEffect(()=>{
@@ -44,6 +46,7 @@ export default function UserContextProvider({children} : {children : ReactNode})
 
     const login: UserContextType['login']= async(email, password) =>{
         try{
+            setLoading(true);
             const response = await fetch('/api/user', {
                 method : 'POST',
                 headers : {
@@ -65,6 +68,9 @@ export default function UserContextProvider({children} : {children : ReactNode})
             console.log(error);
             alert(error.message);
         }
+        finally{
+            setLoading(false);
+        };
     };
 
     async function logout(){
@@ -87,7 +93,7 @@ export default function UserContextProvider({children} : {children : ReactNode})
     };
 
     return(
-        <UserContext.Provider value={{userInfo, setUserInfo, login, logout}}>
+        <UserContext.Provider value={{userInfo, setUserInfo, login, logout, loading}}>
             {children}
         </UserContext.Provider>
     )

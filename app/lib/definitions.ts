@@ -42,8 +42,17 @@ export type ICard = {
     description : string;
     ticketNumber : number;
     comments : IComment[];
-    webhookEvents : string;
+    webhookEvents : IWebhook[];
     watchers : string[];
+}
+
+export type IWebhook = {
+    _id : string;
+    title : string;
+    githubRequestId : string;
+    githubLink : string;
+    author : string;
+    state : string;
 }
 
 export type IComment = {

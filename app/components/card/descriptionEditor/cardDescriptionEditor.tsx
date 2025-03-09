@@ -4,6 +4,8 @@ import { updateCardDescription } from '@/services/cardService';
 import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
+import { PiListBold  } from "react-icons/pi";
+
 export default function CardDescriptionEditor(){
     const { setCardInfo } = useBoardDispatch();
     const { cardInfo } = useBoardState()
@@ -65,6 +67,7 @@ export default function CardDescriptionEditor(){
 
     return(
         <div className={styles.container}>
+            <PiListBold  className={styles.icon} size={25}/>
             <span>Description</span>
             {edit ? (
                 <div className={styles.editor}>

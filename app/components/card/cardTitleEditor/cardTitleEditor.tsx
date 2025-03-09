@@ -4,6 +4,7 @@ import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { updateCardTitle } from '@/services/cardService';
 import { useBoardDispatch, useBoardState } from '@/context/boardContext';
+import { IoCardOutline } from "react-icons/io5";
 
 export default function CardTitleEditor(){
     const { selectedColumn, cardInfo } = useBoardState();
@@ -84,13 +85,15 @@ export default function CardTitleEditor(){
     
     return(
         <div className={styles.container}>
+            <IoCardOutline className={styles.icon} size={25}/>
             <textarea value={newTitle} 
                 onChange={(e)=>setNewTitle(e.target.value)} 
                 className={styles.textarea} 
                 ref={textAreaRef}
                 onBlur={handleBlur}
             />
-            <span className={styles.listName}>in list {}</span>
+            <span className={styles.ticketNumber}>#{cardInfo.ticketNumber}</span>
+            <span className={styles.listName}>in list {selectedColumn?.title}</span>
         </div>
     )
 }   
