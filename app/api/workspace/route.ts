@@ -8,18 +8,27 @@ export async function POST(request : NextRequest){
     await connectToDatabase();
 
     try{
+        function getRandomColor(){
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = Math.floor(Math.random() * 30) + 20;
+            const lightness = Math.floor(Math.random() * 35) + 50;
+            return { hue : hue, saturation : saturation, lightness : lightness};
+        };
+
+
         const newWorkspace = new Workspace(
             {
                 name : name,
                 description: description,
                 members: [
                     { 
-                        userId : userId,
                         role : 'owner',
+                        userId : userId,
                     }
-                ]
+                ],
+                color : getRandomColor(),
             }
-        )
+        );
 
         await newWorkspace.save();
 

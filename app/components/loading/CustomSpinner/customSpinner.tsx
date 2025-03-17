@@ -11,7 +11,10 @@ export default function CustomSpinner({size, color, borderWidth, marginTop} : {s
             spinnerRef.current.style.height = `${size}px`;
             spinnerRef.current.style.width = `${size}px`;
             spinnerRef.current.style.borderWidth = `${borderWidth}px`;
-            spinnerRef.current.style.marginTop = `${marginTop}px`;
+            if(marginTop){
+                const adjust = size / 2;
+                spinnerRef.current.style.marginTop = `${marginTop - adjust }px`;
+            }
         }
     })
     

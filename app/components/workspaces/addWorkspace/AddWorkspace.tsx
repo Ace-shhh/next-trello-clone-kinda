@@ -5,17 +5,22 @@ import Overlay from '../../overlay/Overlay';
 import { createWorkspace } from '@/services/workspaceService';
 import { useUserContext } from '@/context/userContext';
 import { CustomError } from '@/app/lib/definitions';
+import { IoAddOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
+import { IoMdAdd } from "react-icons/io";
 
-export default function AddWorkspace(){
-    const { userInfo, setUserInfo } = useUserContext();
+interface addWorkspaceProps{
+    type : 'button' | 'div';
+}
 
+export default function AddWorkspace({type} : addWorkspaceProps){
     const [createNew, setCreateNew] = useState<boolean>(false);
-    const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
+    const { userInfo, setUserInfo } = useUserContext();
 
     useEffect(()=>{
         if(!createNew) return;
@@ -35,7 +40,7 @@ export default function AddWorkspace(){
     },[createNew])
 
     if(!userInfo){
-        return <>Loading...</> 
+        return <div>Loading...</div> 
     }
 
     async function handleSubmit(e : React.FormEvent){
@@ -66,8 +71,7 @@ export default function AddWorkspace(){
                 if(error.status === 500){
                     setError(true);
                     setErrorMessage(error.message);
-                }
-                // Add a relogin function for not authenticated/unauthorized error
+                };
             }
             else{
                 toast.error("Unexpected error occured.", {autoClose : 5000});
@@ -122,7 +126,19 @@ export default function AddWorkspace(){
                     </div>
                 </Overlay>
             }
-            <span className={`${styles.createWorkspace} ${error ? styles.error : null}`} onClick={handleAdd}>Create new workspace</span>
+            { type === 'button' ? (
+                <button 
+                className={`${styles.createWorkspaceButton} ${error ? styles.error : null}`} 
+                onClick={handleAdd}>
+                    <IoAddOutline size='20'/>Create workspace
+                </button>
+            ) : (
+                <div className={styles.createWorkspaceDiv} onClick={handleAdd}>
+                    <IoMdAdd className={styles.icon} size={50}/>
+                    <h3>Create new workspace</h3>
+                    <span>Organize your boards and collaborate with your team</span>
+                </div>
+            )}
         </div>  
     )
 }

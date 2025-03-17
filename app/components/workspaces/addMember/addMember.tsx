@@ -1,11 +1,13 @@
 import { CustomError, IWorkspace, User } from '@/app/lib/definitions';
 import styles from './addMember.module.scss';
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { fetchUsers } from '@/services/userService';
 import { toast } from 'react-toastify';
 import UserTemplate from './userTemplate/userTemplate';
 import { addWorkspaceMembers } from '@/services/workspaceService';
 import { useUserContext } from '@/context/userContext';
+import { GoPeople } from "react-icons/go";
 
 export default function AddMember({workspaceData} : {workspaceData : IWorkspace}){
     const [addMember, setAddMember] = useState<boolean>(false);
@@ -14,7 +16,9 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [membersToAdd, setMembersToAdd] = useState<string[]>([]);
 
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
     const addMemberRef = useRef<HTMLDivElement | null>(null);
+    const membersListRef = useRef<HTMLDivElement | null>(null);
 
     const { userInfo, setUserInfo } = useUserContext();
 
@@ -23,7 +27,7 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
 
     useEffect(()=>{
         function handleClickOutside(event : MouseEvent){
-            if(addMemberRef.current && !addMemberRef.current.contains(event.target as Node)){
+            if(membersListRef.current && !membersListRef.current.contains(event.target as Node)){
                 setAddMember(false);
                 setMembersToAdd([]);
             };
@@ -34,6 +38,28 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
             document.removeEventListener('mousedown', handleClickOutside)
         }
     },[])
+
+
+    useEffect(()=>{
+        if(!addMember) return;
+
+        if(buttonRef.current && membersListRef.current){
+            const rect = buttonRef.current.getBoundingClientRect();
+            const listWidth= 300;
+            const screenWidth = window.innerWidth;
+
+            let leftPosition = rect.left;
+            let rightOverFlow = rect.left + listWidth > screenWidth;
+
+            if(rightOverFlow){
+                leftPosition = rect.right - listWidth;
+            };
+            
+            membersListRef.current.style.position = 'absolute';
+            membersListRef.current.style.top = `${rect.bottom + 10}px`;
+            membersListRef.current.style.left = `${leftPosition}px`;
+        }
+    },[addMember]);
 
 
     useEffect(()=>{
@@ -108,10 +134,12 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
 
     return(
         <div className={styles.container} ref={addMemberRef}>
-            <button onClick={()=>setAddMember(!addMember)}>Add Members</button>
+            <button className={styles.addMemberButton} onClick={()=>setAddMember(!addMember)} ref={buttonRef}>
+                <GoPeople size={20}/> Add Members
+            </button>
             {
-                addMember && 
-                    <div className={styles.membersList}>
+                addMember && createPortal(
+                    <div className={styles.membersList} ref={membersListRef}>
                         <input className={styles.userInput} value={searchTerm} onChange={(e)=> setSearchTerm(e.target.value)}/>
 
                         <div className={styles.resultContainer}>
@@ -130,8 +158,9 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
 
                             <button className={styles.saveButton} onClick={handleSave}>SAVE</button>
                         </div>
-
-                    </div>
+                    </div>,
+                    document.body
+                )
             }
         </div>
     )

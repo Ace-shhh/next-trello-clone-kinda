@@ -4,6 +4,9 @@ import { createBoard } from '@/services/boardService';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
 import { useUserContext } from '@/context/userContext';
+import { IoAddOutline } from "react-icons/io5";
+import Overlay from '../../overlay/Overlay';
+
 export default function AddBoard({workspaceId} : {workspaceId : string}){
     const [add, setAdd] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
@@ -117,19 +120,19 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
     };
 
     return(
-        <div style={{position: 'relative'}}>
-            <div className={styles.container} onClick={handleClick}>
-                + Add Board
-            </div>
+        <div>
+            <button className={styles.button} onClick={handleClick}><IoAddOutline size={20}/>Add Board</button>
             {add && 
-                    <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
-                        <label>Board Title : </label>
-                        <input className={styles.formInput} type='text' placeholder='Enter title...' value={title} onChange={(e)=> setTitle(e.target.value)} required={true} disabled={error}/>
-                        <label>Description : </label>
-                        <input className={styles.formInput} type='text' placeholder='Enter description' value={description} onChange={(e)=> setDescription(e.target.value)} disabled={error}/>
-                        <button className={styles.saveButton} type='submit'>{loading ? <div className={styles.loadingSpinner}/> : 'Save'}</button>
-                        <button className={styles.cancelButton} onClick={(e)=> {e.preventDefault(); handleClose()}}>X</button>
-                    </form>
+                    <Overlay>
+                        <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
+                            <label>Board Title : </label>
+                            <input className={styles.formInput} type='text' placeholder='Enter title...' value={title} onChange={(e)=> setTitle(e.target.value)} required={true} disabled={error}/>
+                            <label>Description : </label>
+                            <input className={styles.formInput} type='text' placeholder='Enter description' value={description} onChange={(e)=> setDescription(e.target.value)} disabled={error}/>
+                            <button className={styles.saveButton} type='submit'>{loading ? <div className={styles.loadingSpinner}/> : 'Save'}</button>
+                            <button className={styles.cancelButton} onClick={(e)=> {e.preventDefault(); handleClose()}}>X</button>
+                        </form>
+                    </Overlay>
             }
         </div>
     )

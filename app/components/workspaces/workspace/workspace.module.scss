@@ -1,43 +1,88 @@
 .container{
-    background-color: #cccc;
-    height: 200px;
-    width: 100%;
+    height: 300px;
+    min-width: 200px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     caret-color: transparent;
     margin-bottom: 10px;
     box-sizing: border-box;
-    padding : 5px;
+    border: 1px solid #ccc;
     border-radius: 10px;
+    overflow-x: hidden;
 
-    .headerContainer{
+    .header{
         display: flex;
+        height: 20%;
+        min-height: 30px;
         justify-content: space-between;
+        padding: 10px;
+        box-sizing: border-box;
 
         h2{
             margin: 0;
+            padding: 0;
+            color : white;
+        }
+    }
+
+    .boardInformation{
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        padding: 0px 10px;
+
+        span{
+            height: 15px;
+            padding: 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+
+            .icon{
+                margin-right: 5px;
+            }
         }
     }
 
 
     .boards_container{
-        height: 100%;
         display: flex;
+        flex-grow : 1;
         gap: 10px;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
         
         .board{
             background-color: #f1f1f4;
-            width: 200px;
+            height: 50px;
+            width: auto;
             padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
             transition: filter 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: black;
 
             &:hover{
                 cursor: pointer;
                 filter: brightness(0.9);
             };
         }
+    }
+
+    .addMemberCtn{
+        height: 20%;
+        min-height: 30px;
+        display: flex;
+        align-items: start;
+        justify-content: end;
     }
 }

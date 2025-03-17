@@ -1,6 +1,49 @@
 .container{
-    height: calc(100vh - 50px);
+    min-height: calc(100vh - 50px);
     width: 100%;
-    padding: 10px;
+    padding: 20px 10px;
     box-sizing: border-box;
+
+    .ownWorkspaces{
+        .header{
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            margin-bottom: 15px;
+    
+            h1{
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        .workspacesCtn{
+            display: grid;
+            grid-template-columns : repeat(auto-fit, minmax(200px, 500px));
+            gap: 5px;
+            align-items: start;
+        }
+    }
+
+    .otherWorkspaces{
+
+        h1{
+            margin: 0;
+        }
+
+        .p{
+            color: #64748b;
+        }
+
+        .noWorkspaceDiv{
+            height: 100px;
+            margin: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+    }
 }

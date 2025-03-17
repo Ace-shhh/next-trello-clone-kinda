@@ -1,4 +1,5 @@
 import styles from './userTemplate.module.scss'
+import ProfilePicture from '@/app/components/user/profilePicture/profilePicture'
 
 export default function UserTemplate(
     {
@@ -21,11 +22,7 @@ export default function UserTemplate(
 
     return(
         <label className={styles.labelContainer}>
-            {profilePicture? (
-                <img src={profilePicture} className={styles.profilePictureImg}/>
-                ) : (
-                <span className={styles.profilePictureSpan}>{username[0].toUpperCase()}</span>
-            )}
+            <ProfilePicture customProfilePicture={profilePicture} customUserName={username} hoverEffect={false} size={30}/>
             {username}
             <input type='checkbox' onChange={(e)=>setChange(e, id)}/>
         </label>
