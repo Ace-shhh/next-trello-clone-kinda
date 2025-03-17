@@ -19,7 +19,7 @@ export function useUserContext() {
         throw new Error('useUserContext must be used within a UserContextProvider');
     }
     return context;
-} 
+};
 
 
 
@@ -40,8 +40,8 @@ export default function UserContextProvider({children} : {children : ReactNode})
 
     useEffect(()=>{
         if(userInfo){
-            localStorage.setItem('userInfo', JSON.stringify(userInfo))
-        }
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        };
     },[userInfo]);
 
     const login: UserContextType['login']= async(email, password) =>{
@@ -61,7 +61,6 @@ export default function UserContextProvider({children} : {children : ReactNode})
                 throw new Error(json.error || "Failed to log in")
             }
             setUserInfo(json.data)
-            localStorage.setItem('userInfo', JSON.stringify(json.data))
             router.push('/workspaces')
         }
         catch(error : any){
@@ -78,13 +77,13 @@ export default function UserContextProvider({children} : {children : ReactNode})
             const response = await fetch('/api/user/logout',{
                 method : 'POST',
                 credentials : 'include',
-            })
+            });
 
             if(response.ok){
                 router.push('/login');
                 setUserInfo(undefined);
                 localStorage.removeItem('userInfo');
-            }
+            };
         }   
         catch(error : unknown){
             console.log('Logout error', error)
@@ -96,5 +95,5 @@ export default function UserContextProvider({children} : {children : ReactNode})
         <UserContext.Provider value={{userInfo, setUserInfo, login, logout, loading}}>
             {children}
         </UserContext.Provider>
-    )
+    );
 }

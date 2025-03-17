@@ -4,6 +4,13 @@ export type IWorkspace = {
     description : string;
     members : Member[];
     boards : IBoard[];
+    color : Color;
+}
+
+export type Color = {
+    hue : number;
+    saturation : number;
+    lightness : number;
 }
 
 export type User = {

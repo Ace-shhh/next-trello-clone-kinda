@@ -5,11 +5,18 @@ interface IWorkspace{
     description?: string;
     members: Member[];
     boards : mongoose.Types.ObjectId[];
+    color : Color;
 }
 
 interface Member{
     userId : mongoose.Types.ObjectId;
     role : string;
+}
+
+interface Color{
+    hue : number,
+    saturation : number,
+    lightness : number,
 }
 
 const WorkspaceSchema = new Schema<IWorkspace>({
@@ -33,7 +40,22 @@ const WorkspaceSchema = new Schema<IWorkspace>({
     boards : [{
         type : mongoose.Schema.ObjectId,
         ref : 'Board'
-    }]
+    }],
+    
+    color : {
+        hue : {
+            type : Number,
+            required : true,
+        },
+        saturation : {
+            type : Number,
+            required : true,
+        },
+        lightness : {
+            type : Number,
+            required : true,
+        },
+    }
 }, {timestamps : true})
 
 
