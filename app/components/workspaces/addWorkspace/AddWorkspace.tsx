@@ -3,7 +3,7 @@ import styles from './AddWorkspace.module.scss';
 import { useState, useEffect } from 'react';
 import Overlay from '../../overlay/Overlay';
 import { createWorkspace } from '@/services/workspaceService';
-import { useUserContext, useUserDispatchContext, useUserStateContext } from '@/context/userContext';
+import { useUserDispatchContext, useUserStateContext } from '@/context/userContext';
 import { CustomError } from '@/app/lib/definitions';
 import { IoAddOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';

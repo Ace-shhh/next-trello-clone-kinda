@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { CustomError } from '@/app/lib/definitions'
 import { toast } from 'react-toastify'
 import { createUser } from '@/services/userService'
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
 
 export default function Register(){
     const [username, setUsername] = useState<string>('');
@@ -12,7 +12,7 @@ export default function Register(){
     const [password, setPassword] = useState<string>('');
     const [confirm, setConfirm] = useState<string>('');
     const [showMatchError, setShowMatchError] = useState<boolean>(false);
-    const { login } = useUserContext();
+    const { login } = useUserDispatchContext();
 
     async function handleSubmit(e : React.FormEvent<HTMLFormElement>){
         e.preventDefault();

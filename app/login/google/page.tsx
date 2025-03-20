@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import Overlay from '@/app/components/overlay/Overlay';
 import CustomSpinner from '@/app/components/loading/CustomSpinner/customSpinner';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 export default function GoogleLogin(){
     const [middle, setMiddle] = useState<number | null>(null)
-    const { setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
     const router = useRouter();
 
     useEffect(()=>{
