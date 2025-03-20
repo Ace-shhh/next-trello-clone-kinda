@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState, useRef } from 'react';
 import { createBoard } from '@/services/boardService';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
 import { IoAddOutline } from "react-icons/io5";
 import Overlay from '../../overlay/Overlay';
 
@@ -15,7 +15,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);
-    const { setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
 
 
     useEffect(()=>{

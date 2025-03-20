@@ -3,10 +3,10 @@ import styles from './page.module.scss';
 import Workspace from '../components/workspaces/workspace/workspace';
 import { IWorkspace } from '../lib/definitions';
 import AddWorkspace from '../components/workspaces/addWorkspace/AddWorkspace';
-import { useUserContext } from '@/context/userContext';
+import { useUserStateContext } from '@/context/userContext';
 
 export default function Workspaces(){
-    const { userInfo } = useUserContext();
+    const { userInfo } = useUserStateContext();
 
     if(!userInfo){
         return <div>Loading...</div>

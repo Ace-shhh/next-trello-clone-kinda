@@ -1,19 +1,19 @@
 import { IColumn, IColumnUpdate } from "@/app/lib/definitions";
 
-export async function createColumn({title, boardId} : {title : string, boardId : string}){
+export async function createColumn({title, boardId, socketId} : {title : string, boardId : string, socketId : string}){
     try{  
         const response = await fetch('/api/column/create', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
             },
-            body : JSON.stringify({title : title, boardId : boardId})
+            body : JSON.stringify({title, boardId, socketId})
         })
 
         const json = await response.json();
         
         if(!response.ok){
-            throw new Error(json.error || 'Failed to create column');
+            throw new Error(json.message || 'Failed to create column');
         };
         
         return json.data;

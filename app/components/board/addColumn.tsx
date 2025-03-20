@@ -6,7 +6,7 @@ import { createColumn } from '@/services/columnService';
 import { useBoardDispatch } from '@/context/boardContext';
 import { memo } from 'react';
 
-function AddColumn({boardId} : {boardId : string}){
+function AddColumn({boardId, socketId} : {boardId : string, socketId : string}){
     const [addColumn, setAddColumn] = useState<boolean>(false);
     const [newColumnTitle, setNewColumnTitle] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,7 +22,7 @@ function AddColumn({boardId} : {boardId : string}){
     const handleClick = async() =>{
         setIsLoading(true);
         try{
-            const result = await createColumn({title : newColumnTitle, boardId});
+            const result = await createColumn({title : newColumnTitle, boardId, socketId});
 
             setBoardInfo((prev)=> {
                 if (!prev) return prev;

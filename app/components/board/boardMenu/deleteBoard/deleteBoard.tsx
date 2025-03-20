@@ -6,14 +6,14 @@ import Overlay from '@/app/components/overlay/Overlay';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
 import { deleteBoard } from '@/services/boardService';
 
 
 export default function DeleteBoard(){
     const [confimation, setConfirmation] = useState<boolean>(false);
     const router = useRouter();
-    const { setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
     
     const searchParams = useSearchParams();
     const params = useParams();

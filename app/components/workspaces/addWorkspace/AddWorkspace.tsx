@@ -3,11 +3,13 @@ import styles from './AddWorkspace.module.scss';
 import { useState, useEffect } from 'react';
 import Overlay from '../../overlay/Overlay';
 import { createWorkspace } from '@/services/workspaceService';
-import { useUserContext } from '@/context/userContext';
+import { useUserContext, useUserDispatchContext, useUserStateContext } from '@/context/userContext';
 import { CustomError } from '@/app/lib/definitions';
 import { IoAddOutline } from "react-icons/io5";
 import { toast } from 'react-toastify';
 import { IoMdAdd } from "react-icons/io";
+import { useKeyPress } from '@/app/hooks/useKeyPress';
+
 
 interface addWorkspaceProps{
     type : 'button' | 'div';
@@ -20,24 +22,13 @@ export default function AddWorkspace({type} : addWorkspaceProps){
     const [name, setName] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const { userInfo, setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
+    const { userInfo } = useUserStateContext();
 
-    useEffect(()=>{
-        if(!createNew) return;
-        const handleEscape = (event : KeyboardEvent) =>{
-            if(loading) return;
-            
-            if(event.key === 'Escape'){
-                setCreateNew(false);
-            };
-        };
-        
-        document.addEventListener("keydown", handleEscape);
-        
-        return () =>{
-            document.removeEventListener("keydown", handleEscape);
-        };
-    },[createNew])
+    useKeyPress('Escape', ()=>{
+        if(loading) return;
+        setCreateNew(false);
+    });
 
     if(!userInfo){
         return <div>Loading...</div> 

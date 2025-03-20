@@ -1,12 +1,13 @@
 'use client'
 import styles from './accountMenu.module.scss'
-import { useUserContext } from '@/context/userContext'
+import { useUserDispatchContext, useUserStateContext } from '@/context/userContext'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import ProfilePicture from '../../user/profilePicture/profilePicture'
 export default function AccountMenu(){
     const [menu, setMenu] = useState<boolean>(false);
-    const { userInfo, logout } = useUserContext();
+    const { userInfo } = useUserStateContext();
+    const { logout } = useUserDispatchContext();
     const menuRef = useRef<HTMLDivElement | null>(null);
     const togglerRef = useRef<HTMLSpanElement | null>(null);
     const router = useRouter();

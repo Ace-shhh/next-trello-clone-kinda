@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
-import { Column } from "@/app/lib/models";
+import { Column, Board } from "@/app/lib/models";
 
 export async function PATCH(request: NextRequest, { params }: { params : Promise<{ id : string }> }){
     const body = await request.json();

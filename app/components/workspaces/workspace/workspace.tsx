@@ -18,7 +18,7 @@ export default function Workspace({data, role}: {data : IWorkspace, role : strin
 
         if(headerRef.current){
             headerRef.current.style.backgroundImage = 
-            `linear-gradient( to right, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${hue + 20}, ${lightness}%, ${saturation}%))`;
+            `linear-gradient( to left, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${hue + 20}, ${lightness}%, ${saturation}%))`;
         }
     },[]);
 

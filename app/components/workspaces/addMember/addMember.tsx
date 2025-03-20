@@ -6,7 +6,7 @@ import { fetchUsers } from '@/services/userService';
 import { toast } from 'react-toastify';
 import UserTemplate from './userTemplate/userTemplate';
 import { addWorkspaceMembers } from '@/services/workspaceService';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext, useUserStateContext } from '@/context/userContext';
 import { GoPeople } from "react-icons/go";
 
 export default function AddMember({workspaceData} : {workspaceData : IWorkspace}){
@@ -20,7 +20,8 @@ export default function AddMember({workspaceData} : {workspaceData : IWorkspace}
     const addMemberRef = useRef<HTMLDivElement | null>(null);
     const membersListRef = useRef<HTMLDivElement | null>(null);
 
-    const { userInfo, setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
+    const { userInfo } = useUserStateContext();
 
     if(!userInfo) return <div>Loading...</div>
 

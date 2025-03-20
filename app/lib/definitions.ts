@@ -5,6 +5,7 @@ export type IWorkspace = {
     members : Member[];
     boards : IBoard[];
     color : Color;
+    getBackgroundImage : ()=> string;
 }
 
 export type Color = {

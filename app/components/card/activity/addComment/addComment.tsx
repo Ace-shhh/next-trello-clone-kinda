@@ -1,16 +1,18 @@
 import styles from './addComment.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { createComment } from '@/services/commentService';
 import { CustomError } from '@/app/lib/definitions';
 import { useBoardState, useBoardDispatch } from '@/context/boardContext';
 import ProfilePicture from '@/app/components/user/profilePicture/profilePicture';
+import { text } from 'stream/consumers';
 
 export default function AddComment(){
     const [newComment, setNewComment] = useState<string>('');
     const [addComment, setAddComment] = useState<boolean>(false);
     const { cardInfo } = useBoardState();
     const { setCardInfo } = useBoardDispatch();
+    const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const saved = localStorage.getItem('userInfo');
     const userInfo = saved? JSON.parse(saved) : null;
 
@@ -21,12 +23,17 @@ export default function AddComment(){
                 setAddComment(false);
             };
         };
-
         document.addEventListener('keydown', escapeListener);
         return ()=>{
             document.removeEventListener('keydown', escapeListener)
         };
     },[]);
+
+    useEffect(()=>{
+        if(textAreaRef.current){
+            textAreaRef.current.select();
+        }
+    },[addComment])
 
     async function handleSave(){
         if(!userInfo) return;
@@ -38,7 +45,7 @@ export default function AddComment(){
             setCardInfo(prev=>{
                 if(!prev) return prev;
                 if(!prev.comments) return {...prev, commments : [result]};
-                return {...prev, comments : [...prev.comments, result]}
+                return {...prev, comments : [result, ...prev.comments]}
             })
         }
         catch(error){
@@ -61,7 +68,12 @@ export default function AddComment(){
             {
                 addComment? (
                     <div className={styles.inputContainer}>
-                        <textarea className={styles.commentInput} value={newComment} onChange={(e)=>setNewComment(e.target.value)}/>
+                        <textarea 
+                            className={styles.commentInput} 
+                            value={newComment} 
+                            onChange={(e)=>setNewComment(e.target.value)}
+                            ref={textAreaRef}
+                        />
                         <button className={styles.saveButton} onClick={handleSave}>Save</button>
                     </div>
                 ) : (
