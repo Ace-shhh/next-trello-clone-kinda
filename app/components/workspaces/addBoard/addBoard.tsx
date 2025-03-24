@@ -3,7 +3,8 @@ import { FormEvent, useEffect, useState, useRef } from 'react';
 import { createBoard } from '@/services/boardService';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
-import { useUserDispatchContext, useUserStateContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
+import { useWebsocketContext } from '@/context/websocketContext';
 import { IoAddOutline } from "react-icons/io5";
 import Overlay from '../../overlay/Overlay';
 
@@ -16,8 +17,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);
     const { setUserInfo } = useUserDispatchContext();
-    const { socketId } = useUserDispatchContext();
-
+    const { socketId } = useWebsocketContext();
     useEffect(()=>{
         if(!add) return;
         function escapeListener(e : KeyboardEvent){
