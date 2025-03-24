@@ -72,7 +72,7 @@ export default function CardDetails({cardId} : {cardId : string}){
     
     const center = window.innerHeight * 0.5;
 
-    if(!cardInfo) return <Overlay><CustomSpinner size={50} color='white' borderWidth={4} marginTop={center}/></Overlay>
+    if(!cardInfo) return <Overlay onClick={()=>{}}><CustomSpinner size={50} color='white' borderWidth={4} marginTop={center}/></Overlay>
 
     return (
         <Overlay onClick={handleOverlayClick}>

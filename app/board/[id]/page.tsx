@@ -112,7 +112,7 @@ export default function Board() {
     }, []);
 
     if (!boardInfo) {
-        return <Overlay onCLick={null}><CustomSpinner size={50} color='white' borderWidth={4} marginTop={typeof window !== 'undefined' ? window.innerHeight / 2 : 200} /></Overlay>;
+        return <Overlay onClick={()=>{}}><CustomSpinner size={50} color='white' borderWidth={4} marginTop={typeof window !== 'undefined' ? window.innerHeight / 2 : 200} /></Overlay>;
     }
 
     return (
