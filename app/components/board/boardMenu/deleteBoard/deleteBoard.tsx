@@ -6,14 +6,14 @@ import Overlay from '@/app/components/overlay/Overlay';
 import { CustomError } from '@/app/lib/definitions';
 import { toast } from 'react-toastify';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
 import { deleteBoard } from '@/services/boardService';
 
 
 export default function DeleteBoard(){
     const [confimation, setConfirmation] = useState<boolean>(false);
     const router = useRouter();
-    const { setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
     
     const searchParams = useSearchParams();
     const params = useParams();
@@ -69,7 +69,7 @@ export default function DeleteBoard(){
             </button>
             
             {confimation && 
-                <Overlay>
+                <Overlay onClick={()=>{}}>
                     <div className={styles.confirmation}>
                             <h2>Are you sure you want to {role === 'owner' ? 'Delete' : 'Leave'} this board?</h2>
                             <div className={styles.buttonsCtn}>

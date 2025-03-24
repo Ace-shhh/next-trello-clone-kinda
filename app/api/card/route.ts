@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Card, Column, Count } from '@/app/lib/models';
 import connectToDatabase from '@/app/lib/mongodb';
+import pusher from '@/app/lib/pusher';
 
 export async function POST(request : NextRequest){
     const body = await request.json();
-    const { title, columnId } = body;
+    const { title, columnId, boardId, socketId } = body;
     
     await connectToDatabase();
 
@@ -43,6 +44,11 @@ export async function POST(request : NextRequest){
                     {status : 404}
                 );
             };
+
+
+            pusher.trigger(boardId, 'CardEvent', {action : 'create', data : newCard, columnId}, {
+                socket_id : socketId
+            });
 
             return NextResponse.json({data : newCard});
         

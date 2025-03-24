@@ -1,13 +1,13 @@
 import { CustomError } from "@/app/lib/definitions";
 
-export async function createCard({title, columnId} : {title : string, columnId : string}){
+export async function createCard({title, columnId, boardId, socketId} : {title : string, columnId : string, boardId : string, socketId : string}){
     try{
         const response = await fetch('/api/card', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
             },
-            body : JSON.stringify({title, columnId})
+            body : JSON.stringify({title, columnId, boardId, socketId})
         })
 
         const json = await response.json();

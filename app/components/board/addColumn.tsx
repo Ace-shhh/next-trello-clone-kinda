@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { createColumn } from '@/services/columnService';
 import { useBoardDispatch } from '@/context/boardContext';
+import { useWebsocketContext } from '@/context/websocketContext';
 import { memo } from 'react';
 
 function AddColumn({boardId} : {boardId : string}){
@@ -11,6 +12,7 @@ function AddColumn({boardId} : {boardId : string}){
     const [newColumnTitle, setNewColumnTitle] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { setBoardInfo } = useBoardDispatch();
+    const { socketId } = useWebsocketContext();
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(()=>{
@@ -20,9 +22,10 @@ function AddColumn({boardId} : {boardId : string}){
     },[addColumn])
 
     const handleClick = async() =>{
+        if(!socketId) return;
         setIsLoading(true);
         try{
-            const result = await createColumn({title : newColumnTitle, boardId});
+            const result = await createColumn({title : newColumnTitle, boardId, socketId});
 
             setBoardInfo((prev)=> {
                 if (!prev) return prev;

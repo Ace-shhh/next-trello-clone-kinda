@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Board } from '@/app/lib/models/index';
 import { Workspace } from "@/app/lib/models/index";
+import pusher from "@/app/lib/pusher";
 
 export async function GET(request : NextRequest){
     const { searchParams } = request.nextUrl;
@@ -76,11 +77,12 @@ interface createBoardRequestBody{
     title : string,
     description? : string,
     workspaceId : string,
+    socketId : string,
 };
 
 export async function POST(request : NextRequest){
     const body = await request.json();
-    const { title, description, workspaceId }: createBoardRequestBody = body;
+    const { title, description, workspaceId, socketId } : createBoardRequestBody = body;
 
 
 
@@ -113,6 +115,13 @@ export async function POST(request : NextRequest){
                 {status : 400}
             )
         }
+
+        pusher.trigger(
+            workspaceId, 
+            'WorkspaceEvent', 
+            {action : 'createBoard', wsId : workspaceId, newBoard : newBoard },
+            { socket_id : socketId }
+        )
 
         return NextResponse.json(
             {data : newBoard},

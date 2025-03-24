@@ -19,7 +19,7 @@ export async function middleware(req : NextRequest){
         const payload = decodeJwt(token) as { userId ? : string};
 
         if(!payload.userId) {
-            return new NextResponse('Unautorized', {status : 401});
+            return new NextResponse('Unauthorized', {status : 401});
         };
 
         const requestHeaders = new Headers(req.headers)

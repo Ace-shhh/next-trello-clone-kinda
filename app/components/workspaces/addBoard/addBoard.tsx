@@ -3,7 +3,8 @@ import { FormEvent, useEffect, useState, useRef } from 'react';
 import { createBoard } from '@/services/boardService';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext } from '@/context/userContext';
+import { useWebsocketContext } from '@/context/websocketContext';
 import { IoAddOutline } from "react-icons/io5";
 import Overlay from '../../overlay/Overlay';
 
@@ -15,9 +16,8 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement | null>(null);
-    const { setUserInfo } = useUserContext();
-
-
+    const { setUserInfo } = useUserDispatchContext();
+    const { socketId } = useWebsocketContext();
     useEffect(()=>{
         if(!add) return;
         function escapeListener(e : KeyboardEvent){
@@ -51,7 +51,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
     async function handleSubmit(e : FormEvent){
         e.preventDefault();
         
-        if(loading) return;
+        if(loading || !socketId) return;
 
         const titleTrim = title.trim();
         const descriptionTrim = description.trim();
@@ -63,7 +63,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
         try{
             setLoading(true);
 
-            const newBoard = await createBoard({title : titleTrim, description : descriptionTrim, workspaceId});
+            const newBoard = await createBoard({title : titleTrim, description : descriptionTrim, workspaceId, socketId});
 
             if(!newBoard){
                 throw new CustomError('Something went wrong, Failed to create Board');
@@ -90,7 +90,6 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
                     setError(true)
                     setErrorMessage(error.message)
                 };
-                // add error handling for not authenticated/unauthorized user
             }else{
                 toast.error("Unexpected error occured", { autoClose : 5000})
                 console.log(error);
@@ -123,7 +122,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
         <div>
             <button className={styles.button} onClick={handleClick}><IoAddOutline size={20}/>Add Board</button>
             {add && 
-                    <Overlay>
+                    <Overlay onClick={()=>{}}>
                         <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
                             <label>Board Title : </label>
                             <input className={styles.formInput} type='text' placeholder='Enter title...' value={title} onChange={(e)=> setTitle(e.target.value)} required={true} disabled={error}/>

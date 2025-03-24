@@ -50,7 +50,6 @@ export async function POST(request : NextRequest){
     if(profilePicture){
         if(profilePicture instanceof File){
             try{
-                console.log('File upload working')
                 const arrayBuffer = await profilePicture.arrayBuffer();
                 const bufferData = Buffer.from(arrayBuffer);
 

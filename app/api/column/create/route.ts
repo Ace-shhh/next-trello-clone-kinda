@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Column, Board } from '@/app/lib/models/index'
+import pusher from "@/app/lib/pusher";
 
 export async function POST(request : NextRequest){
     const body = await request.json();
-    const { title, boardId } = body;
+    const { title, boardId, socketId } = body;
 
     connectToDatabase();
+
     try{
         const newColumn = new Column(
             {title : title},
@@ -20,7 +22,6 @@ export async function POST(request : NextRequest){
             );
         }
 
-        //Link it to board
         try{    
             const updatedBoard = await Board.findByIdAndUpdate(
                 boardId,
@@ -35,6 +36,8 @@ export async function POST(request : NextRequest){
                 );
             };
             
+            pusher.trigger(boardId, "ListEvent", {data : newColumn, action : 'create'}, {socket_id : socketId});
+
             return NextResponse.json(
                 {data : newColumn}
             );

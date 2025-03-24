@@ -1,12 +1,13 @@
 import styles from './editProfile.module.scss';
-import { useUserContext } from '@/context/userContext';
+import { useUserDispatchContext, useUserStateContext } from '@/context/userContext';
 import ProfilePicture from '../../user/profilePicture/profilePicture';
 import { useRef, useState, useEffect } from 'react';
 import { updateUser } from '@/services/userService';
 import { toast } from 'react-toastify';
 import { CustomError } from '@/app/lib/definitions';
 export default function EditProfile(){
-    const { userInfo, setUserInfo } = useUserContext();
+    const { setUserInfo } = useUserDispatchContext();
+    const { userInfo } = useUserStateContext();
     const [username, setUsername] = useState<string>(userInfo?.username || '');
     const [email, setEmail] = useState<string>(userInfo?.email || '');
     const [password, setPassword] = useState<string>('')

@@ -18,7 +18,7 @@ export default function Workspace({data, role}: {data : IWorkspace, role : strin
 
         if(headerRef.current){
             headerRef.current.style.backgroundImage = 
-            `linear-gradient( to right, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${hue + 20}, ${lightness}%, ${saturation}%))`;
+            `linear-gradient( to left, hsl(${hue}, ${saturation}%, ${lightness}%), hsl(${hue + 20}, ${lightness}%, ${saturation}%))`;
         }
     },[]);
 
@@ -27,9 +27,9 @@ export default function Workspace({data, role}: {data : IWorkspace, role : strin
         <div className={styles.container}>
             <div className={styles.header} ref={headerRef}>
                 <h2>{data.name}</h2>
-            </div>
-            <div className={styles.boardInformation}>
-                <span><GoPeople size={15} className={styles.icon}/> {data.members.length} Members</span>
+                <div className={styles.boardInformation}>
+                    <span><GoPeople size={15} className={styles.icon}/> {data.members.length} Members</span>
+                </div>
             </div>
             <div className={styles.boards_container}>
                 {data.boards.map((board : IBoard)=>
