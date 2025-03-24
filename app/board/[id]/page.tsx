@@ -5,9 +5,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useBoardDispatch, useBoardState } from '@/context/boardContext';
 import { toast } from 'react-toastify';
-import { CustomError } from '@/app/lib/definitions';
+import { CustomError, ICard, IColumn } from '@/app/lib/definitions';
 import { getBoard } from '@/services/boardService';
-import { useUserStateContext } from '@/context/userContext';
 
 import AddColumn from '@/app/components/board/addColumn';
 import Column from '@/app/components/column/column';
@@ -16,12 +15,23 @@ import CardDetails from '@/app/components/card/cardDetails/cardDetails';
 import BoardMenu from '@/app/components/board/boardMenu/boardMenu';
 import Overlay from '@/app/components/overlay/Overlay';
 import CustomSpinner from '@/app/components/loading/CustomSpinner/customSpinner';
+import useBoardSubscription from '@/app/hooks/useBoardSubscription';
+
+interface ListActionsType{
+    action : string;
+    data : IColumn;
+}
+
+interface CardActionsType{
+    action : string;
+    columnId? : string;
+    data : ICard;
+}
 
 export default function Board() {
     const [showMenu, setShowMenu] = useState<boolean>(false);
     const { setBoardInfo } = useBoardDispatch();
     const { boardInfo, selectedCardId } = useBoardState();
-    const { socketId, pusher } = useUserStateContext();
 
     const params = useParams();
     const searchParams = useSearchParams();
@@ -30,9 +40,52 @@ export default function Board() {
     const wsId = searchParams.get('wsId') ?? '';
     const router = useRouter();
 
+    const ListHandler = useCallback((event : ListActionsType) : void =>{
+        if(event.action === 'create'){
+            setBoardInfo(prev=>{
+                if(!prev) return prev;
+                return {...prev, columns : [...prev.columns, event.data]};
+            });
+        }
+        else if(event.action === 'archive'){
+            setBoardInfo(prev=>{
+                if(!prev) return prev;
+                const columnId = event.data._id;
+                const savedColumn = prev.columns.find(col=> col._id === columnId);
+                if(!savedColumn) return prev;
+                return {...prev, columns : prev.columns.filter(col=> col._id !== columnId), archive : [...prev.archive, savedColumn]}
+            });
+        }
+        else if(event.action === 'unarchive'){
+            setBoardInfo(prev=>{
+                if(!prev) return prev;
+                const columnId = event.data._id;
+                const savedColumn = prev.archive.find(col=> col._id === columnId);
+                if(!savedColumn) return prev;
+                return {...prev, columns : [...prev.columns, savedColumn], archive : prev.archive.filter(col=> col._id !== columnId)}
+            });
+        }
+    },[]);
+
+    const CardHandler = useCallback((event : CardActionsType)=>{
+        if(event.action === 'create'){
+            setBoardInfo(prev=>{
+                if(!prev) return prev;
+                const updatedColumns = prev.columns.map(col=>{
+                    if(col._id === event.columnId){
+                        return {...col, cards : [...col.cards, event.data]}
+                    }
+                    return col;
+                })
+                return {...prev, columns : updatedColumns}
+            })
+        }
+    },[])
+
+    useBoardSubscription(id as string, ListHandler, CardHandler);
+
     useEffect(() => {
         async function fetchBoardInfo() {
-            console.log('fetching board info');
             try {
                 const result = await getBoard({ boardId, wsId: wsId });
                 if (!result) {
@@ -59,7 +112,7 @@ export default function Board() {
     }, []);
 
     if (!boardInfo) {
-        return <Overlay><CustomSpinner size={50} color='white' borderWidth={4} marginTop={typeof window !== 'undefined' ? window.innerHeight / 2 : 200} /></Overlay>;
+        return <Overlay onCLick={null}><CustomSpinner size={50} color='white' borderWidth={4} marginTop={typeof window !== 'undefined' ? window.innerHeight / 2 : 200} /></Overlay>;
     }
 
     return (
@@ -74,13 +127,13 @@ export default function Board() {
                         {boardInfo.columns.map((col) =>
                             <Column key={col._id} data={col} overlay={null} />)}
                     </DragAndDropProvider>
-                    <AddColumn boardId={id as string} socketId={socketId ? socketId : ''} />
+                    <AddColumn boardId={id as string}/>
                 </div>
             </div>
             <div className={`${styles.boardMenu} ${showMenu ? styles.grow : ''}`}>
                 <BoardMenu onClose={handleClose} />
             </div>
-            {selectedCardId && <CardDetails id={selectedCardId} />}
+            {selectedCardId && <CardDetails cardId={selectedCardId} />}
         </div>
     );
 }

@@ -2,11 +2,15 @@
 import styles from './addCard.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { createCard } from '@/services/cardService';
-import { useBoardDispatch } from '@/context/boardContext';
+import { useBoardDispatch, useBoardState } from '@/context/boardContext';
+import { useWebsocketContext } from '@/context/websocketContext';
+
 export default function AddCard({columnId, overlay} : {columnId : string, overlay : boolean | null}){
     const [addCard, setAddCard] = useState<boolean>(false)
     const [cardTitle, setCardTitle] = useState<string>('');
     const { setBoardInfo } = useBoardDispatch();
+    const { boardInfo } = useBoardState();
+    const { socketId } = useWebsocketContext();
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(()=>{
@@ -39,11 +43,14 @@ export default function AddCard({columnId, overlay} : {columnId : string, overla
 
     //create new card
     async function handleClick(){
+        const trim = cardTitle.trim();
+        if(!socketId || !trim || !boardInfo) return;
+
         try{
-            const newCard = await createCard({title : cardTitle, columnId});
+            const newCard = await createCard({title : cardTitle, columnId, boardId : boardInfo._id, socketId});
             setBoardInfo((prev)=>{
                 if(!prev) return prev;
-                const updatedColumns = prev?.columns.map((col)=>{
+                const updatedColumns = prev.columns.map((col)=>{
                     if(col._id === columnId){
                         return {
                             ...col,
@@ -56,7 +63,7 @@ export default function AddCard({columnId, overlay} : {columnId : string, overla
                     ...prev,
                     columns : updatedColumns
                 }
-            })
+            });
 
             setAddCard(false);
             setCardTitle('');

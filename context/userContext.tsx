@@ -1,14 +1,11 @@
 'use client'
 import { User } from '@/app/lib/definitions';
-import { useState, useContext, createContext, ReactNode, useEffect, useCallback, useRef } from 'react';
+import { useState, useContext, createContext, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Pusher from 'pusher-js';
 
 interface UserStateContextType {
     userInfo?: User;
     loading: boolean;
-    socketId: string | undefined;
-    pusher?: Pusher;
 };
 
 interface UserContextDispatchType{
@@ -39,51 +36,7 @@ export function useUserDispatchContext() {
 export default function UserContextProvider({ children }: { children: ReactNode }) {
     const [userInfo, setUserInfo] = useState<User>();
     const [loading, setLoading] = useState<boolean>(false);
-    const [socketId, setSocketId] = useState<string | undefined>(undefined);
-    const [pusher, setPusher] = useState<Pusher>();
     const router = useRouter();
-    const pusherInstanceRef = useRef<Pusher | null>(null);
-
-    console.log('context provider restarted')
-
-    const NotificationHandler = useCallback((event : any)=>{
-        console.log("Received notification event : ", event);
-    },[])
-
-    useEffect(()=>{
-        if(!userInfo) return;
-
-        if(!pusherInstanceRef.current){
-            const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY as string;
-            const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string;
-        
-            console.log('Pusher connection establishing')
-    
-            const pusherInstance = new Pusher(
-                pusherKey, {
-                    cluster : pusherCluster
-                }
-            );
-    
-            const channel = pusherInstance.subscribe(userInfo._id);
-            console.log(`pusher subribed to ${userInfo._id}`);
-            channel.bind('Notifications', NotificationHandler);
-            setPusher(pusherInstance);
-            setSocketId(pusherInstance.connection.socket_id);
-            pusherInstanceRef.current = pusherInstance;
-        }   
-
-        return ()=>{
-            console.log('Pusher connection CLEANING UP');
-            if(pusherInstanceRef.current){
-                pusherInstanceRef.current.unbind_all();
-                pusherInstanceRef.current.disconnect();
-                pusherInstanceRef.current = null;
-            }
-            setPusher(undefined);
-        }
-    },[userInfo, NotificationHandler])
-
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -144,7 +97,7 @@ export default function UserContextProvider({ children }: { children: ReactNode 
     };
 
     return (
-        <UserStateContext.Provider value={{userInfo, loading, socketId, pusher}}>
+        <UserStateContext.Provider value={{userInfo, loading}}>
         <UserDispatchContext.Provider value={{setUserInfo, login, logout}}>
             {children}
         </UserDispatchContext.Provider>

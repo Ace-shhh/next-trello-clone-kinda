@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export type IWorkspace = {
     _id : string;
     name : string;
@@ -69,6 +71,15 @@ export type IComment = {
     user : User;
     createdAt : Date;
     updatedAt : Date;
+}
+
+export type IActivity = {
+    action : string;
+    entity : ObjectId;
+    from? : ObjectId | string;
+    to? : ObjectId | string;
+    in : ObjectId;
+    user : User;
 }
 
 export class CustomError extends Error {

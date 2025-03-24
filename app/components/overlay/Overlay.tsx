@@ -1,10 +1,9 @@
 'use client';
-import React from 'react';
 import styles from './Overlay.module.scss';
-export default function Overlay({children} : {children : React.ReactNode}){
+export default function Overlay({children, onClick} : {children : React.ReactNode, onClick: (e : React.MouseEvent<HTMLDivElement>) => void | null}){
 
     return(
-        <div className={styles.container}>
+        <div className={styles.container} onClick={onClick}>
             {children}  
         </div>
         );

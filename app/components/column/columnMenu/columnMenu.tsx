@@ -5,8 +5,9 @@ import { useEffect, memo, useRef, useState } from 'react';
 import { useBoardDispatch } from '@/context/boardContext';
 import { archiveColumn } from '@/services/boardService';
 import { CustomError } from '@/app/lib/definitions';
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 import { useParams } from 'next/navigation';
+import { useWebsocketContext } from '@/context/websocketContext';
 
 function ColumnMenu({columnId} : {columnId : string}){
     const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -14,6 +15,7 @@ function ColumnMenu({columnId} : {columnId : string}){
     const menuRef = useRef<HTMLDivElement | null>(null);
     const params = useParams();
     const boardId = params.id as string;
+    const { socketId } = useWebsocketContext();
 
     const { setBoardInfo } = useBoardDispatch();
     
@@ -53,10 +55,10 @@ function ColumnMenu({columnId} : {columnId : string}){
     };
 
     async function handleArchive(){
-        if(!boardId) return;
+        if(!boardId || !socketId) return;
 
         try{
-            const updatedBoard = await archiveColumn(boardId, columnId, 'archive');
+            const updatedBoard = await archiveColumn(boardId, columnId, 'archive', socketId);
             setBoardInfo(prev=>{
                 if(!prev) return prev;
                 const columnToMove = prev.columns.find(col=> col._id === columnId);

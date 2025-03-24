@@ -1,13 +1,20 @@
 import { CustomError } from "@/app/lib/definitions";
 
-export async function createComment({comment, cardId, userId} : {comment : string, cardId : string, userId : string}){
+interface createCommentType{
+    comment : string
+    cardId : string
+    userId : string
+    socketId : string
+}
+
+export async function createComment(prop : createCommentType){
     try{
-        const response = await fetch(`/api/comment?cardId=${cardId}&userId=${userId}`,{
+        const response = await fetch(`/api/comment`,{
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
             },
-            body : JSON.stringify({comment : comment})
+            body : JSON.stringify(prop)
         });
 
         const json = await response.json();

@@ -4,16 +4,17 @@ type createBoardParams = {
     title : string;
     description : string;
     workspaceId : string;
+    socketId : string;
 }
 
-export async function createBoard({title, description, workspaceId} : createBoardParams){
+export async function createBoard({title, description, workspaceId, socketId} : createBoardParams){
     try{
         const response = await fetch(`/api/board/`, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
             },
-            body : JSON.stringify({title, description, workspaceId})
+            body : JSON.stringify({title, description, workspaceId, socketId})
         })
 
         const json = await response.json();
@@ -77,9 +78,9 @@ export async function udpateColumnOrder(id : string, columns : IColumn[]){
     }
 }
 
-export async function archiveColumn(boardId : string, columnId : string, action : string){
+export async function archiveColumn(boardId : string, columnId : string, action : string, socketId : string){
     try{
-        const response = await fetch(`/api/board/update/archive?boardId=${boardId}&columnId=${columnId}&action=${action}`,{
+        const response = await fetch(`/api/board/update/archive?boardId=${boardId}&columnId=${columnId}&action=${action}&socketId=${socketId}`,{
             method : "PATCH",
             credentials : 'include',
         })

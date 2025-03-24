@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/app/lib/mongodb";
 import { Comment, Card } from "@/app/lib/models";
+import pusher from "@/app/lib/pusher";
+import ActivityLogger from "@/app/lib/activityLogger";
 
 export async function POST(request : NextRequest){
-    const { searchParams } = request.nextUrl;
-    const cardId = searchParams.get('cardId');
-    const userId = searchParams.get('userId')
     const body = await request.json();
+    const { comment, cardId, userId, socketId } = body;
+
+    const ipAddress = request.headers.get("x-forwaded-for")?.split('')[0].trim() || request.headers.get("x-real-ip");
+    const userAgent = request.headers.get("user-agent") || "unknown";
 
     await connectToDatabase();
-    
+
     try{
         const newComment = new Comment({
-            comment : body.comment,
+            comment : comment,
             user : userId,
         });
 
-        (await newComment.save()).populate('user');
+        const savedComment = await newComment.save();
+        await savedComment.populate('user');
 
         if(!newComment){
             return NextResponse.json(
@@ -25,9 +29,28 @@ export async function POST(request : NextRequest){
             )
         }
 
+        const activityLog = {
+            action : 'posted a comment',
+            entity : newComment._id,
+            in : cardId,
+            user : userId,
+            metadata : {
+                ipAddress,
+                userAgent,
+            }
+        }
+
+        const newActivityId = await ActivityLogger(activityLog);
+
+        const updateQuery: any = { $push : { comments : newComment._id }}
+
+        if(newActivityId){
+            updateQuery.$push.activity = newActivityId;
+        };
+
         const updatedCard = await Card.findByIdAndUpdate(
             cardId,
-            {$push : {comments : newComment._id}},
+            updateQuery,
             {new : true},
         );
 
@@ -37,10 +60,18 @@ export async function POST(request : NextRequest){
                 {status : 400}
             );
         };
+        
+        const data = {
+            action : 'comment',
+            data : updatedCard,
+            newComment : savedComment,
+        }
 
-        console.log('New Comment : ', newComment)
+        pusher.trigger(cardId, 'CardEvent', data, {
+            socket_id : socketId
+        });
 
-        return NextResponse.json({data : newComment})
+        return NextResponse.json({data : savedComment})
     }
     catch(error){
         console.log(error);
