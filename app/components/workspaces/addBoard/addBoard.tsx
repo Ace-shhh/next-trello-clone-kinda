@@ -122,7 +122,7 @@ export default function AddBoard({workspaceId} : {workspaceId : string}){
         <div>
             <button className={styles.button} onClick={handleClick}><IoAddOutline size={20}/>Add Board</button>
             {add && 
-                    <Overlay>
+                    <Overlay onClick={()=>{}}>
                         <form className={styles.form} onSubmit={handleSubmit} ref={formRef}>
                             <label>Board Title : </label>
                             <input className={styles.formInput} type='text' placeholder='Enter title...' value={title} onChange={(e)=> setTitle(e.target.value)} required={true} disabled={error}/>

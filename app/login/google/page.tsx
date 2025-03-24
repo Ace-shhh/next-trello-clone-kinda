@@ -36,7 +36,7 @@ export default function GoogleLogin(){
     },[])
     
     return(
-        <Overlay>
+        <Overlay onClick={()=>{}}>
             <CustomSpinner size={60} color={'black'} borderWidth={5} marginTop={middle}/>
         </Overlay>
     )

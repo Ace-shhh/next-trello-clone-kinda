@@ -69,7 +69,7 @@ export default function DeleteBoard(){
             </button>
             
             {confimation && 
-                <Overlay>
+                <Overlay onClick={()=>{}}>
                     <div className={styles.confirmation}>
                             <h2>Are you sure you want to {role === 'owner' ? 'Delete' : 'Leave'} this board?</h2>
                             <div className={styles.buttonsCtn}>

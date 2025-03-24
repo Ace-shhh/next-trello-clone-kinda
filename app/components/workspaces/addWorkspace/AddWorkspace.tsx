@@ -93,7 +93,7 @@ export default function AddWorkspace({type} : addWorkspaceProps){
     return(
         <div className={styles.container}>
             {createNew && 
-                <Overlay>
+                <Overlay onClick={()=>{}}>
                     <div className={styles.container}>
                         <form className={styles.form} onSubmit={handleSubmit}>
                             <label>Workspace Name</label>
